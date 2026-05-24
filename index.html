@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kathrine's Tour & Travels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap" rel="stylesheet">
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/">
+<link rel="manifest" href="/favicon/site.webmanifest">
+<link rel="shortcut icon" href="/favicon/favicon.ico">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --gold:#C9A84C;
+  --gold-light:#E8C97A;
+  --gold-dim:#6A5022;
+  --teal:#00FFE5;
+  --teal-mid:#00C8B4;
+  --teal-dim:#004D47;
+  --ink:#020408;
+  --ink-2:#060C12;
+  --ink-3:#0A1018;
+  --white:#E8F4F8;
+  --white-dim:#7A9BAA;
+  --cyan:#00D4FF;
+  --magenta:#FF00AA;
+  --font-tech:'Orbitron',sans-serif;
+  --font-body:'Rajdhani',sans-serif;
+  --font-italic:'Cormorant Garamond',serif;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--ink);
+  color:var(--white);
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.7;
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* ── SCANLINE OVERLAY ── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,229,0.012) 2px,
+    rgba(0,255,229,0.012) 4px
+  );
+  pointer-events:none;
+  z-index:999;
+}
+
+/* ── GRID BG ── */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:200;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.2rem 3rem;
+  background:rgba(2,4,8,0.85);
+  border-bottom:1px solid rgba(0,255,229,0.08);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  transition:border-color 0.4s;
+}
+nav.scrolled{border-bottom-color:rgba(0,255,229,0.2)}
+
+.nav-logo{
+  font-family:var(--font-tech);
+  font-size:0.75rem;
+  font-weight:700;
+  letter-spacing:0.3em;
+  color:var(--teal);
+  text-decoration:none;
+  text-transform:uppercase;
+  text-shadow:0 0 20px rgba(0,255,229,0.5);
+}
+
+.nav-links{
+  display:flex;
+  gap:2.5rem;
+  list-style:none;
+  align-items:center;
+}
+.nav-links a{
+  font-family:var(--font-body);
+  font-weight:500;
+  font-size:0.72rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--white-dim);
+  text-decoration:none;
+  transition:color 0.3s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';
+  position:absolute;
+  bottom:-4px;left:0;right:0;
+  height:1px;
+  background:var(--teal);
+  transform:scaleX(0);
+  transition:transform 0.3s;
+  box-shadow:0 0 8px var(--teal);
+}
+.nav-links a:hover{color:var(--teal)}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+.nav-cta{
+  font-family:var(--font-tech);
+  font-size:0.62rem;
+  font-weight:600;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--ink);
+  background:var(--teal);
+  border:none;
+  padding:0.6rem 1.4rem;
+  cursor:pointer;
+  text-decoration:none;
+  clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition:background 0.3s, box-shadow 0.3s;
+  box-shadow:0 0 20px rgba(0,255,229,0.3);
+}
+.nav-cta:hover{background:var(--cyan);box-shadow:0 0 30px rgba(0,212,255,0.5)}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  height:100vh;
+  min-height:700px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.hero-bg-img {
+  
+  position: absolute;
+  inset: 0;
+}
+
+.hero-bg-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.9) saturate(1.2);
+  transform: scale(1.05);
+  animation: heroZoom 20s ease-in-out infinite alternate;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.hero-bg-img img.active { 
+  opacity: 2;
+}
+
+
+/* Futuristic color overlay */
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(135deg, rgba(0,255,229,0.08) 0%, transparent 50%, rgba(255,0,170,0.06) 100%),
+    linear-gradient(to bottom, transparent 40%, var(--ink) 100%);
+}
+
+/* Animated corner brackets */
+.hero-bracket{
+  position:absolute;
+  width:80px;height:80px;
+  border-color:var(--teal);
+  border-style:solid;
+  opacity:0.5;
+  animation:bracketPulse 3s ease-in-out infinite;
+}
+.hero-bracket.tl{top:100px;left:60px;border-width:2px 0 0 2px}
+.hero-bracket.tr{top:100px;right:60px;border-width:2px 2px 0 0}
+.hero-bracket.bl{bottom:60px;left:60px;border-width:0 0 2px 2px}
+.hero-bracket.br{bottom:60px;right:60px;border-width:0 2px 2px 0}
+@keyframes bracketPulse{
+  0%,100%{opacity:0.3;box-shadow:none}
+  50%{opacity:0.7;box-shadow:inset 0 0 15px rgba(0,255,229,0.15)}
+}
+
+/* Glitch lines */
+.hero-glitch-line{
+  position:absolute;
+  left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(0,255,229,0.4), rgba(0,212,255,0.4), transparent);
+  animation:glitchScan 8s linear infinite;
+}
+.hero-glitch-line:nth-child(2){animation-delay:-3s;opacity:0.5}
+@keyframes glitchScan{
+  0%{top:-2%;opacity:0}
+  5%{opacity:1}
+  95%{opacity:1}
+  100%{top:102%;opacity:0}
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  padding:0 2rem;
+  animation:heroIn 1.5s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes heroIn{
+  from{opacity:0;transform:translateY(50px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.hero-sys-label{
+  font-family:var(--font-tech);
+  font-size:0.58rem;
+  font-weight:400;
+  letter-spacing:0.5em;
+  color:var(--teal);
+  text-shadow:0 0 15px var(--teal);
+  margin-bottom:1.5rem;
+  opacity:0;
+  animation:fadeIn 1s 0.4s forwards;
+}
+
+.hero-title{
+  font-family:var(--font-tech);
+  font-size:clamp(2.8rem,8vw,6rem);
+  font-weight:900;
+  letter-spacing:0.04em;
+  line-height:1;
+  color:var(--white);
+  margin-bottom:0.5rem;
+  text-shadow:0 0 60px rgba(0,255,229,0.15);
+  opacity:0;
+  animation:fadeIn 1s 0.6s forwards;
+}
+.hero-title .t-teal{
+  color:var(--teal);
+  text-shadow:0 0 30px rgba(0,255,229,0.6), 0 0 60px rgba(0,255,229,0.3);
+}
+.hero-title .t-gold{
+  color:var(--gold);
+  text-shadow:0 0 30px rgba(201,168,76,0.5);
+}
+
+.hero-sub{
+  font-family:var(--font-italic);
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(1rem,2.5vw,1.35rem);
+  color:var(--white-dim);
+  letter-spacing:0.06em;
+  margin-bottom:2.5rem;
+  opacity:0;
+  animation:fadeIn 1s 0.8s forwards;
+}
+
+.hero-stats{
+  display:flex;
+  justify-content:center;
+  gap:3rem;
+  margin-bottom:2.5rem;
+  opacity:0;
+  animation:fadeIn 1s 1s forwards;
+}
+.hero-stat-item{text-align:center}
+.hero-stat-num{
+  display:block;
+  font-family:var(--font-tech);
+  font-size:1.4rem;
+  font-weight:700;
+  color:var(--teal);
+  text-shadow:0 0 20px rgba(0,255,229,0.5);
+}
+.hero-stat-label{
+  font-family:var(--font-body);
+  font-size:0.62rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--white-dim);
+}
+
+.hero-btns{
+  display:flex;
+  gap:1rem;
+  justify-content:center;
+  flex-wrap:wrap;
+  opacity:0;
+  animation:fadeIn 1s 1.1s forwards;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.btn-neon{
+  font-family:var(--font-tech);
+  font-size:0.62rem;
+  font-weight:600;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  text-decoration:none;
+  padding:1rem 2.2rem;
+  background:transparent;
+  color:var(--teal);
+  border:1px solid var(--teal);
+  clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+  cursor:pointer;
+  transition:all 0.3s;
+  box-shadow:0 0 20px rgba(0,255,229,0.15), inset 0 0 20px rgba(0,255,229,0.05);
+}
+.btn-neon:hover{
+  background:rgba(0,255,229,0.1);
+  box-shadow:0 0 40px rgba(0,255,229,0.35), inset 0 0 30px rgba(0,255,229,0.1);
+  text-shadow:0 0 10px var(--teal);
+}
+
+.btn-neon-gold{
+  font-family:var(--font-tech);
+  font-size:0.62rem;
+  font-weight:600;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  text-decoration:none;
+  padding:1rem 2.2rem;
+  background:var(--gold);
+  color:var(--ink);
+  border:1px solid var(--gold);
+  clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+  cursor:pointer;
+  transition:all 0.3s;
+  box-shadow:0 0 25px rgba(201,168,76,0.3);
+}
+.btn-neon-gold:hover{
+  background:var(--gold-light);
+  box-shadow:0 0 40px rgba(201,168,76,0.5);
+}
+
+.scroll-indicator{
+  position:absolute;
+  bottom:2rem;left:50%;
+  transform:translateX(-50%);
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0.4rem;
+  opacity:0;
+  animation:fadeIn 1s 1.5s forwards;
+}
+.scroll-indicator span{
+  font-family:var(--font-tech);
+  font-size:0.5rem;
+  letter-spacing:0.4em;
+  text-transform:uppercase;
+  color:rgba(0,255,229,0.4);
+}
+.scroll-line{
+  width:1px;height:50px;
+  background:linear-gradient(to bottom, var(--teal), transparent);
+  animation:scrollAnim 2s ease-in-out infinite;
+}
+@keyframes scrollAnim{
+  0%{transform:scaleY(0);transform-origin:top;opacity:0}
+  40%{transform:scaleY(1);transform-origin:top;opacity:1}
+  60%{transform:scaleY(1);transform-origin:bottom;opacity:1}
+  100%{transform:scaleY(0);transform-origin:bottom;opacity:0}
+}
+
+/* ── SECTION SYSTEM ── */
+.section-inner{
+  max-width:1140px;
+  margin:0 auto;
+  padding:0 2.5rem;
+  position:relative;
+  z-index:1;
+}
+
+.section-eyebrow{
+  font-family:var(--font-tech);
+  font-size:0.55rem;
+  font-weight:400;
+  letter-spacing:0.5em;
+  text-transform:uppercase;
+  color:var(--teal);
+  text-shadow:0 0 12px rgba(0,255,229,0.4);
+  margin-bottom:0.6rem;
+  display:flex;
+  align-items:center;
+  gap:0.8rem;
+}
+.section-eyebrow::before{
+  content:'';
+  display:inline-block;
+  width:30px;height:1px;
+  background:var(--teal);
+  box-shadow:0 0 8px var(--teal);
+}
+
+.section-title{
+  font-family:var(--font-tech);
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:700;
+  letter-spacing:0.04em;
+  color:var(--white);
+  line-height:1.1;
+  margin-bottom:1rem;
+}
+.section-title .t-teal{color:var(--teal);text-shadow:0 0 20px rgba(0,255,229,0.4)}
+.section-title .t-gold{color:var(--gold)}
+
+.holo-divider{
+  width:100px;height:1px;
+  background:linear-gradient(90deg, var(--teal), var(--cyan), transparent);
+  margin-bottom:2rem;
+  box-shadow:0 0 10px rgba(0,255,229,0.4);
+}
+
+/* ── ABOUT ── */
+.about{
+  padding:8rem 0;
+  background:var(--ink-2);
+  position:relative;
+  overflow:hidden;
+}
+
+.about::before{
+  content:'';
+  position:absolute;
+  top:-200px;right:-200px;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(0,255,229,0.04) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:5rem;
+  align-items:center;
+}
+
+.about-img-wrap{
+  position:relative;
+}
+
+.about-img-frame{
+  position:relative;
+  aspect-ratio:3/4;
+  overflow:hidden;
+}
+
+.about-img-frame img{
+  width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(0.8) saturate(1.1);
+  display:block;
+}
+
+/* Futuristic frame overlay */
+.about-img-frame::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(to bottom, rgba(0,255,229,0.08) 0%, transparent 30%, transparent 70%, rgba(0,255,229,0.12) 100%),
+    linear-gradient(to right, rgba(0,255,229,0.06) 0%, transparent 20%);
+  z-index:1;
+  pointer-events:none;
+}
+/* Corner frames */
+.about-img-frame::after{
+  content:'';
+  position:absolute;
+  inset:12px;
+  border:1px solid rgba(0,255,229,0.2);
+  z-index:2;
+  pointer-events:none;
+}
+
+.img-corner{
+  position:absolute;
+  width:24px;height:24px;
+  z-index:3;
+}
+.img-corner.tl{top:6px;left:6px;border-top:2px solid var(--teal);border-left:2px solid var(--teal)}
+.img-corner.tr{top:6px;right:6px;border-top:2px solid var(--teal);border-right:2px solid var(--teal)}
+.img-corner.bl{bottom:6px;left:6px;border-bottom:2px solid var(--teal);border-left:2px solid var(--teal)}
+.img-corner.br{bottom:6px;right:6px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+
+/* HUD overlay text on image */
+.img-hud{
+  position:absolute;
+  bottom:1.5rem;left:1.5rem;right:1.5rem;
+  z-index:4;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+}
+.img-hud-tag{
+  font-family:var(--font-tech);
+  font-size:0.55rem;
+  letter-spacing:0.2em;
+  color:var(--teal);
+  text-shadow:0 0 10px var(--teal);
+  background:rgba(2,4,8,0.7);
+  padding:0.3rem 0.6rem;
+  border:1px solid rgba(0,255,229,0.2);
+}
+.img-hud-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--teal);
+  box-shadow:0 0 10px var(--teal);
+  animation:blink 2s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+.about-stat-strip{
+  display:flex;
+  gap:1px;
+  margin-top:1.5px;
+}
+.about-stat{
+  flex:1;
+  padding:1rem;
+  background:rgba(0,255,229,0.03);
+  border:1px solid rgba(0,255,229,0.1);
+  text-align:center;
+  transition:border-color 0.3s, background 0.3s;
+}
+.about-stat:hover{
+  border-color:rgba(0,255,229,0.3);
+  background:rgba(0,255,229,0.06);
+}
+.stat-num{
+  display:block;
+  font-family:var(--font-tech);
+  font-size:1.4rem;
+  font-weight:700;
+  color:var(--teal);
+  text-shadow:0 0 15px rgba(0,255,229,0.5);
+}
+.stat-label{
+  font-size:0.6rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--white-dim);
+  font-family:var(--font-body);
+  font-weight:500;
+}
+
+.about-text p{
+  color:var(--white-dim);
+  font-size:1.05rem;
+  font-weight:400;
+  margin-bottom:1.2rem;
+  line-height:1.8;
+}
+.about-text p strong{color:var(--white);font-weight:600}
+
+.tiktok-link{
+  display:inline-flex;
+  align-items:center;
+  gap:0.6rem;
+  margin-top:1rem;
+  font-family:var(--font-tech);
+  font-size:0.6rem;
+  font-weight:600;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--teal);
+  text-decoration:none;
+  border:1px solid rgba(0,255,229,0.25);
+  padding:0.7rem 1.4rem;
+  transition:all 0.3s;
+  box-shadow:0 0 15px rgba(0,255,229,0.05);
+}
+.tiktok-link:hover{
+  border-color:var(--teal);
+  background:rgba(0,255,229,0.06);
+  box-shadow:0 0 25px rgba(0,255,229,0.2);
+}
+
+/* ── DESTINATIONS ── */
+.destinations{
+  padding:8rem 0;
+  background:var(--ink-3);
+  position:relative;
+}
+
+.dest-header{text-align:center;margin-bottom:4rem}
+.dest-header .holo-divider{margin:0 auto 2rem;background:linear-gradient(90deg,transparent,var(--teal),var(--cyan),transparent)}
+
+.dest-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+
+.dest-card{
+  position:relative;
+  aspect-ratio:4/5;
+  overflow:hidden;
+  cursor:pointer;
+  background:var(--ink);
+}
+.dest-card:first-child{
+  grid-row:span 2;
+  aspect-ratio:auto;
+}
+
+.dest-card img{
+  position:absolute;
+  inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(0.8) saturate(1.2);
+  transition:transform 0.8s cubic-bezier(0.16,1,0.3,1), filter 0.5s;
+}
+.dest-card:hover img{
+  transform:scale(1.08);
+  filter:brightness(0.8) saturate(1.4);
+}
+
+/* Futuristic overlay per card */
+.dest-holo{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(2,4,8,0.95) 0%, rgba(2,4,8,0.3) 50%, transparent 100%);
+  transition:opacity 0.4s;
+}
+
+/* Teal scan line on hover */
+.dest-card::after{
+  content:'';
+  position:absolute;
+  left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--teal),transparent);
+  top:0;
+  box-shadow:0 0 15px var(--teal);
+  transform:scaleX(0);
+  transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.dest-card:hover::after{transform:scaleX(1)}
+
+.dest-info{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:1.8rem;
+  z-index:2;
+  transform:translateY(6px);
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.dest-card:hover .dest-info{transform:translateY(0)}
+
+.dest-tag{
+  font-family:var(--font-tech);
+  font-size:0.52rem;
+  font-weight:400;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  color:var(--teal);
+  text-shadow:0 0 8px var(--teal);
+  margin-bottom:0.3rem;
+}
+.dest-city{
+  font-family:var(--font-tech);
+  font-size:1.6rem;
+  font-weight:700;
+  color:var(--white);
+  letter-spacing:0.04em;
+  line-height:1;
+  margin-bottom:0.4rem;
+}
+.dest-card:first-child .dest-city{font-size:2.4rem}
+
+.dest-line{
+  width:40px;height:1px;
+  background:var(--gold);
+  box-shadow:0 0 8px rgba(201,168,76,0.5);
+  margin-bottom:0.4rem;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.4s 0.1s;
+}
+.dest-card:hover .dest-line{transform:scaleX(1)}
+
+.dest-desc{
+  font-family:var(--font-italic);
+  font-style:italic;
+  font-size:0.92rem;
+  color:var(--white-dim);
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity 0.3s 0.15s, transform 0.3s 0.15s;
+}
+.dest-card:hover .dest-desc{opacity:1;transform:translateY(0)}
+
+/* coord HUD top-right */
+.dest-coord{
+  position:absolute;
+  top:1rem;right:1rem;
+  z-index:2;
+  font-family:var(--font-tech);
+  font-size:0.5rem;
+  letter-spacing:0.1em;
+  color:rgba(0,255,229,0.5);
+  text-shadow:0 0 8px var(--teal);
+  opacity:0;
+  transition:opacity 0.4s;
+}
+.dest-card:hover .dest-coord{opacity:1}
+
+/* ── JOURNAL ── */
+.journal{
+  padding:8rem 0;
+  background:var(--ink-2);
+  position:relative;
+}
+
+.journal-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  margin-bottom:3.5rem;
+  flex-wrap:wrap;
+  gap:1.5rem;
+}
+
+.journal-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+
+.journal-card{
+  background:var(--ink-3);
+  border:1px solid rgba(0,255,229,0.06);
+  transition:border-color 0.3s;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.journal-card:hover{border-color:rgba(0,255,229,0.25)}
+
+.journal-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--teal),var(--cyan));
+  box-shadow:0 0 15px var(--teal);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  z-index:3;
+}
+.journal-card:hover::before{transform:scaleX(1)}
+
+.journal-thumb{
+  aspect-ratio:16/10;
+  position:relative;
+  overflow:hidden;
+}
+.journal-thumb img{
+  width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(0.8) saturate(1.2);
+  transition:transform 0.6s cubic-bezier(0.16,1,0.3,1), filter 0.4s;
+  display:block;
+}
+.journal-card:hover .journal-thumb img{
+  transform:scale(1.06);
+  filter:brightness(0.8) saturate(1.4);
+}
+
+.journal-thumb-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(6,12,18,0.7) 0%, transparent 60%);
+}
+
+.journal-body{padding:1.4rem 1.6rem 1.6rem}
+
+.journal-meta{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-bottom:0.6rem;
+}
+.journal-date{
+  font-family:var(--font-tech);
+  font-size:0.52rem;
+  letter-spacing:0.2em;
+  color:rgba(0,255,229,0.5);
+  text-transform:uppercase;
+}
+.journal-dot{
+  width:4px;height:4px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 6px var(--gold);
+}
+.journal-loc{
+  font-family:var(--font-tech);
+  font-size:0.52rem;
+  letter-spacing:0.15em;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+
+.journal-title{
+  font-family:var(--font-tech);
+  font-size:0.95rem;
+  font-weight:600;
+  color:var(--white);
+  margin-bottom:0.7rem;
+  line-height:1.4;
+  letter-spacing:0.02em;
+}
+
+.journal-excerpt{
+  font-family:var(--font-italic);
+  font-style:italic;
+  font-size:0.95rem;
+  color:var(--white-dim);
+  line-height:1.7;
+}
+
+.journal-read{
+  display:inline-flex;
+  align-items:center;
+  gap:0.4rem;
+  margin-top:1rem;
+  font-family:var(--font-tech);
+  font-size:0.55rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--teal);
+  text-decoration:none;
+  text-shadow:0 0 8px rgba(0,255,229,0.4);
+}
+
+/* ── WALLPAPERS ── */
+.wallpapers{
+  padding:8rem 0;
+  background:var(--ink-3);
+  overflow:hidden;
+}
+
+.wallpaper-header{text-align:center;margin-bottom:4rem}
+.wallpaper-header .holo-divider{margin:0 auto 1.5rem;background:linear-gradient(90deg,transparent,var(--gold),var(--teal),transparent)}
+
+.wallpaper-header p{
+  font-family:var(--font-italic);
+  font-style:italic;
+  font-size:1.1rem;
+  color:var(--white-dim);
+  max-width:500px;
+  margin:0 auto;
+}
+
+.wp-strip{
+  display:flex;
+  gap:2px;
+  overflow-x:auto;
+  padding:0 2.5rem 1.5rem;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(0,255,229,0.2) transparent;
+}
+.wp-strip::-webkit-scrollbar{height:2px}
+.wp-strip::-webkit-scrollbar-thumb{background:rgba(0,255,229,0.3)}
+
+.wp-card{
+  flex:0 0 200px;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  border:1px solid rgba(0,255,229,0.08);
+  transition:border-color 0.3s, transform 0.3s;
+}
+.wp-card:hover{
+  border-color:rgba(0,255,229,0.4);
+  transform:translateY(-8px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0,255,229,0.1);
+}
+
+.wp-thumb{
+  aspect-ratio:9/16;
+  position:relative;
+  overflow:hidden;
+}
+.wp-thumb img{
+  width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(0.8) saturate(1.3);
+  transition:transform 0.5s, filter 0.4s;
+  display:block;
+}
+.wp-card:hover .wp-thumb img{
+  transform:scale(1.05);
+  filter:brightness(0.8) saturate(1.5);
+}
+
+.wp-thumb-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(2,4,8,0.8) 0%, transparent 50%);
+}
+
+.wp-badge{
+  position:absolute;
+  top:0.8rem;left:0.8rem;
+  font-family:var(--font-tech);
+  font-size:0.5rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--ink);
+  padding:0.25rem 0.6rem;
+  z-index:2;
+  clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.wp-badge.teal-badge{background:var(--teal)}
+.wp-badge.gold-badge{background:var(--gold)}
+
+.wp-foot{
+  padding:0.8rem 1rem;
+  background:rgba(6,12,18,0.95);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(0,255,229,0.08);
+}
+.wp-name{
+  font-family:var(--font-tech);
+  font-size:0.65rem;
+  font-weight:600;
+  letter-spacing:0.05em;
+  color:var(--white);
+}
+.wp-price{
+  font-family:var(--font-tech);
+  font-size:0.75rem;
+  font-weight:700;
+  color:var(--teal);
+  text-shadow:0 0 8px rgba(0,255,229,0.5);
+}
+
+.wp-cta{text-align:center;margin-top:3.5rem}
+
+/* ── EMAIL ── */
+.email-section{
+  padding:8rem 0;
+  background:var(--ink-2);
+  position:relative;
+  overflow:hidden;
+}
+
+.email-section::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(0,255,229,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 30% 50%, rgba(201,168,76,0.03) 0%, transparent 60%);
+}
+
+/* Animated circuit lines */
+.circuit{
+  position:absolute;
+  opacity:0.15;
+  pointer-events:none;
+}
+.circuit.left{left:0;top:50%;transform:translateY(-50%)}
+.circuit.right{right:0;top:50%;transform:translateY(-50%) scaleX(-1)}
+
+.email-inner{
+  max-width:620px;
+  margin:0 auto;
+  text-align:center;
+  position:relative;
+  z-index:1;
+  padding:0 2rem;
+}
+
+.email-inner .section-eyebrow{justify-content:center}
+
+.email-body-text{
+  font-family:var(--font-italic);
+  font-style:italic;
+  font-size:1.1rem;
+  color:var(--white-dim);
+  margin-bottom:2.5rem;
+  line-height:1.8;
+}
+
+.email-form{
+  display:flex;
+  gap:0;
+  max-width:500px;
+  margin:0 auto;
+  position:relative;
+}
+.email-form::before{
+  content:'';
+  position:absolute;
+  inset:-1px;
+  background:linear-gradient(90deg,var(--teal),var(--cyan),var(--gold));
+  z-index:-1;
+  opacity:0.3;
+}
+
+.email-form input{
+  flex:1;
+  background:rgba(6,12,18,0.95);
+  border:1px solid rgba(0,255,229,0.2);
+  border-right:none;
+  color:var(--white);
+  font-family:var(--font-tech);
+  font-weight:400;
+  font-size:0.72rem;
+  letter-spacing:0.1em;
+  padding:1rem 1.5rem;
+  outline:none;
+  transition:border-color 0.3s;
+}
+.email-form input::placeholder{color:rgba(122,155,170,0.4)}
+.email-form input:focus{border-color:rgba(0,255,229,0.5)}
+
+.email-form button{
+  background:var(--teal);
+  border:none;
+  color:var(--ink);
+  font-family:var(--font-tech);
+  font-weight:700;
+  font-size:0.6rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  padding:1rem 1.8rem;
+  cursor:pointer;
+  transition:background 0.3s, box-shadow 0.3s;
+  box-shadow:0 0 20px rgba(0,255,229,0.3);
+  white-space:nowrap;
+}
+.email-form button:hover{
+  background:var(--cyan);
+  box-shadow:0 0 35px rgba(0,212,255,0.5);
+}
+
+.email-note{
+  font-family:var(--font-tech);
+  font-size:0.55rem;
+  letter-spacing:0.15em;
+  color:rgba(122,155,170,0.35);
+  margin-top:1rem;
+  text-transform:uppercase;
+}
+
+/* ── FOOTER ── */
+footer{
+  padding:3rem;
+  border-top:1px solid rgba(0,255,229,0.1);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1.5rem;
+  text-align:center;
+  background:var(--ink);
+  position:relative;
+}
+footer::before{
+  content:'';
+  position:absolute;
+  top:0;left:10%;right:10%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--teal),var(--cyan),var(--gold),transparent);
+  box-shadow:0 0 15px rgba(0,255,229,0.3);
+}
+
+.footer-logo{
+  font-family:var(--font-tech);
+  font-size:1rem;
+  font-weight:700;
+  letter-spacing:0.25em;
+  color:var(--teal);
+  text-shadow:0 0 20px rgba(0,255,229,0.4);
+}
+
+.footer-links{
+  display:flex;
+  gap:2rem;
+  list-style:none;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.footer-links a{
+  font-family:var(--font-body);
+  font-weight:500;
+  font-size:0.65rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--white-dim);
+  text-decoration:none;
+  transition:color 0.3s;
+}
+.footer-links a:hover{color:var(--teal)}
+
+.footer-copy{
+  font-family:var(--font-tech);
+  font-size:0.52rem;
+  letter-spacing:0.15em;
+  color:rgba(122,155,170,0.25);
+  text-transform:uppercase;
+}
+
+/* ── REVEAL ── */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .dest-grid{grid-template-columns:1fr 1fr}
+  .dest-card:first-child{grid-column:span 2;grid-row:span 1}
+  .journal-grid{grid-template-columns:1fr}
+  .journal-header{flex-direction:column;align-items:flex-start}
+  .email-form{flex-direction:column}
+  .email-form input{border-right:1px solid rgba(0,255,229,0.2);border-bottom:none}
+  .hero-stats{gap:1.5rem}
+}
+/* ── CHAPTERS ── */
+.chapters { padding: 8rem 0; background: var(--ink); }
+
+.chapters-header { margin-bottom: 3.5rem; }
+
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.chapter-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0,255,229,0.06);
+  transition: border-color 0.3s;
+  cursor: pointer;
+}
+.chapter-card:hover { border-color: rgba(0,255,229,0.25); }
+
+.chapter-img {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+.chapter-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), filter 0.4s;
+}
+.chapter-card.chapter-soon .chapter-img img,
+.chapter-card.chapter-future .chapter-img img {
+  filter: brightness(0.35) saturate(0.4) grayscale(0.5);
+}
+.chapter-card.chapter-active .chapter-img img { filter: brightness(0.55) saturate(1.3); }
+.chapter-card:hover .chapter-img img { transform: scale(1.06); filter: brightness(0.6) saturate(1.3) grayscale(0); }
+
+.chapter-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(2,4,8,0.95) 0%, transparent 60%);
+}
+
+.chapter-badge {
+  position: absolute;
+  top: 1rem; left: 1rem;
+  font-family: var(--font-tech);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+}
+.badge-active  { background: var(--teal); color: var(--ink); }
+.badge-soon    { background: var(--gold); color: var(--ink); }
+.badge-future  { background: rgba(122,155,170,0.2); color: var(--white-dim); border: 1px solid rgba(122,155,170,0.2); }
+
+.chapter-coord {
+  position: absolute;
+  bottom: 0.8rem; right: 1rem;
+  font-family: var(--font-tech);
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+  color: rgba(0,255,229,0.4);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.chapter-card:hover .chapter-coord { opacity: 1; }
+
+.chapter-lock {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(122,155,170,0.3);
+  transition: color 0.3s, opacity 0.3s;
+}
+.chapter-card:hover .chapter-lock { color: rgba(0,255,229,0.5); }
+
+.chapter-body {
+  padding: 1.4rem 1.6rem 1.8rem;
+  background: rgba(6,12,18,0.95);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chapter-phase {
+  font-family: var(--font-tech);
+  font-size: 0.52rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+
+.chapter-city {
+  font-family: var(--font-tech);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.6rem;
+}
+
+.chapter-line {
+  width: 30px; height: 1px;
+  background: var(--teal);
+  box-shadow: 0 0 8px rgba(0,255,229,0.5);
+  margin-bottom: 0.8rem;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+.chapter-card:hover .chapter-line { transform: scaleX(1); }
+
+.chapter-desc {
+  font-family: var(--font-italic);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--white-dim);
+  line-height: 1.7;
+  flex: 1;
+}
+
+.chapter-cta {
+  display: inline-block;
+  margin-top: 1.2rem;
+  font-family: var(--font-tech);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--teal);
+  text-decoration: none;
+  text-shadow: 0 0 8px rgba(0,255,229,0.4);
+}
+
+.chapter-coming {
+  display: inline-block;
+  margin-top: 1.2rem;
+  font-family: var(--font-tech);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(122,155,170,0.35);
+}
+
+/* Chapters responsive */
+@media(max-width:768px) {
+  .chapters-grid { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width:480px) {
+  .chapters-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<canvas id="particles" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:0.55"></canvas>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">KTT://</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#chapters">Chapters</a></li>
+    <li><a href="#journal">Journal</a></li>
+    <li><a href="#wallpapers">Wallpapers</a></li>
+  </ul>
+  <a href="#join" class="nav-cta">Join Journey</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-img">
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647207/alex-kolundzija-5ceJ2k_BQRo-unsplash_wcaymx.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647229/andre-benz-MsMISAIe8Qw-unsplash_pnsh58.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647256/hu-chen-0LwfbRtQ-ac-unsplash_cogvxy.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647196/clay-banks-iTsNwMB-79M-unsplash_czapek.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647202/BingWallpaper_26_tdcalt.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647305/harshil-gudka-kfxEUCTUeyg-unsplash_dmvqxy.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647229/andre-benz-MsMISAIe8Qw-unsplash_pnsh58.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647252/claudia-altamimi-PSD6ffClG0w-unsplash_bs0rul.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647257/jason-cooper-iEJVyyevw-U-unsplash_fkjosu.jpg" alt="" class="active"/>   
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647267/jezael-melgoza-tUVf65KIVpI-unsplash_l1opnm.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647318/jonas-elia-x6HHgq2zDvI-unsplash_waabvq.jpg" alt="" class="active"/>
+  <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779655806/sebastien-goldberg-ZTIEPcsjJaw-unsplash_hdgr9v.jpg" alt="" class="active"/>
+</div>
+  <div class="hero-overlay"></div>
+  <div class="hero-glitch-line"></div>
+  <div class="hero-glitch-line"></div>
+  <div class="hero-bracket tl"></div>
+  <div class="hero-bracket tr"></div>
+  <div class="hero-bracket bl"></div>
+  <div class="hero-bracket br"></div>
+  <div class="hero-content">
+    <p class="hero-sys-label">// System Online · AI Travel Protocol Active</p>
+    <h1 class="hero-title">
+      <span class="t-teal">KATHRINE'S</span><br>
+      <span class="t-gold">TOUR</span> &amp; TRAVELS
+    </h1>
+    <p class="hero-sub">Traveling the world… one country at a time.</p>
+    <div class="hero-stats">
+      <div class="hero-stat-item">
+        <span class="hero-stat-num">1K+</span>
+        <span class="hero-stat-label">Followers</span>
+      </div>
+      <div class="hero-stat-item">
+        <span class="hero-stat-num">11.6K</span>
+        <span class="hero-stat-label">Top Views</span>
+      </div>
+      <div class="hero-stat-item">
+        <span class="hero-stat-num">∞</span>
+        <span class="hero-stat-label">Destinations</span>
+      </div>
+    </div>
+    <div class="hero-btns">
+      <a href="#destinations" class="btn-neon-gold">Explore World</a>
+      <a href="#join" class="btn-neon">Join Journal</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <div class="about-img-frame">
+          <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647312/Screenshot_2025-12-27_132850_ma7bym.png" alt="Kathrine travels" loading="lazy"/>
+          <div class="img-corner tl"></div>
+          <div class="img-corner tr"></div>
+          <div class="img-corner bl"></div>
+          <div class="img-corner br"></div>
+          <div class="img-hud">
+            <span class="img-hud-tag">@kathrine.tours.an</span>
+            <div class="img-hud-dot"></div>
+          </div>
+        </div>
+        <div class="about-stat-strip">
+          <div class="about-stat">
+            <span class="stat-num">1K+</span>
+            <span class="stat-label">Followers</span>
+          </div>
+          <div class="about-stat">
+            <span class="stat-num">11.6K</span>
+            <span class="stat-label">Top Views</span>
+          </div>
+          <div class="about-stat">
+            <span class="stat-num">∞</span>
+            <span class="stat-label">Countries</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-text reveal" style="transition-delay:0.15s">
+        <p class="section-eyebrow">About Kathrine</p>
+        <h2 class="section-title">A world seen through<br><span class="t-teal">cinematic eyes</span></h2>
+        <div class="holo-divider"></div>
+        <p>Kathrine doesn't just travel — she <strong>arrives</strong>. Every destination becomes a mood, a feeling, a frame. From the golden domes of Moscow to the quiet beaches of Bora Bora, her journeys are rendered in light, atmosphere, and emotion.</p>
+        <p>This is not a travel blog. It is a <strong>living dream</strong> — an AI cinematic universe where wanderlust has no limits and every country holds a story worth telling.</p>
+        <p>Follow along and let the world find you.</p>
+        <a href="https://tiktok.com/@kathrine.tours.an" target="_blank" class="tiktok-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07Z"/></svg>
+          Watch on TikTok
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section class="destinations" id="destinations">
+  <div class="dest-header reveal">
+    <p class="section-eyebrow" style="justify-content:center">World Map</p>
+    <h2 class="section-title" style="text-align:center">Destinations <span class="t-teal">Unlocked</span></h2>
+    <div class="holo-divider"></div>
+  </div>
+  <div class="section-inner">
+    <div class="dest-grid">
+
+      <div class="dest-card">
+        <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647256/Gemini_Generated_Image_hfhl5hhfhl5hhfhl_zwpi45.png" alt="Moscow" loading="lazy"/>
+        <div class="dest-holo"></div>
+        <div class="dest-coord">55.7558° N, 37.6173° E</div>
+        <div class="dest-info">
+          <p class="dest-tag">// Russia</p>
+          <h3 class="dest-city">Moscow</h3>
+          <div class="dest-line"></div>
+          <p class="dest-desc">Where snow meets gold and history breathes eternal</p>
+        </div>
+      </div>
+
+      <div class="dest-card">
+        <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647305/Kathrine_Tokoyo_q1k9h7.png" alt="Tokyo" loading="lazy"/>
+        <div class="dest-holo"></div>
+        <div class="dest-coord">35.6762° N, 139.6503° E</div>
+        <div class="dest-info">
+          <p class="dest-tag">// Japan</p>
+          <h3 class="dest-city">Tokyo</h3>
+          <div class="dest-line"></div>
+          <p class="dest-desc">Neon dreams in a city that never quiets</p>
+        </div>
+      </div>
+
+      <div class="dest-card">
+        <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647307/Kathrine_in_the_ALPS_aneorn.png" alt="Switzerland" loading="lazy"/>
+        <div class="dest-holo"></div>
+        <div class="dest-coord">46.8182° N, 8.2275° E</div>
+        <div class="dest-info">
+          <p class="dest-tag">// Switzerland</p>
+          <h3 class="dest-city">Alps</h3>
+          <div class="dest-line"></div>
+          <p class="dest-desc">Silence so pure it becomes its own sound</p>
+        </div>
+      </div>
+
+      <div class="dest-card">
+        <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647270/Kathrine_Dubia_xqyiyr.png" alt="Dubai" loading="lazy"/>
+        <div class="dest-holo"></div>
+        <div class="dest-coord">25.2048° N, 55.2708° E</div>
+        <div class="dest-info">
+          <p class="dest-tag">// UAE</p>
+          <h3 class="dest-city">Dubai</h3>
+          <div class="dest-line"></div>
+          <p class="dest-desc">Luxury rising from the desert gold</p>
+        </div>
+      </div>
+
+      <div class="dest-card">
+        <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647271/Kathrine_in_Bora_Bora_ibl8rb.png" alt="Bora Bora" loading="lazy"/>
+        <div class="dest-holo"></div>
+        <div class="dest-coord">16.5004° S, 151.7415° W</div>
+        <div class="dest-info">
+          <p class="dest-tag">// French Polynesia</p>
+          <h3 class="dest-city">Bora Bora</h3>
+          <div class="dest-line"></div>
+          <p class="dest-desc">Where the ocean becomes a mirror for the sky</p>
+        </div>
+      </div>
+
+      <div class="dest-card">
+        <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647315/Nano_Banana_2_-_A_cinematic_editorial-style_photograph_of_a_breathtakingly_beautiful_21-year-old_Cau_drtbmp.png" alt="Kathrine in Netherland" loading="lazy"/>
+        <div class="dest-holo"></div>
+        <div class="dest-coord">52.3731° N, 4.8924° E</div>
+        <div class="dest-info">
+          <p class="dest-tag">// Netherlands</p>
+          <h3 class="dest-city">Amsterdam</h3>
+          <div class="dest-line"></div>
+          <p class="dest-desc">Where the canals reflect the city's vibrant spirit</p>
+        </div>
+      </div>
+
+      <div class="dest-card">
+        <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647282/Kathrine_in_Santarini_hx8wto.png" alt="Santorini" loading="lazy"/>
+        <div class="dest-holo"></div>
+        <div class="dest-coord">36.3932° N, 25.4615° E</div>
+        <div class="dest-info">
+          <p class="dest-tag">// Greece</p>
+          <h3 class="dest-city">Santorini</h3>
+          <div class="dest-line"></div>
+          <p class="dest-desc">Sunsets that set the sky on fire</p>
+        </div>
+      </div>
+
+      <div class="dest-card">
+        <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647298/Kathrine_in_Vienna_qinyed.png" alt="Vienna" loading="lazy"/>
+        <div class="dest-holo"></div>
+        <div class="dest-coord">48.2082° N, 16.3738° E</div>
+        <div class="dest-info">
+          <p class="dest-tag">// Austria</p>
+          <h3 class="dest-city">Vienna</h3>
+          <div class="dest-line"></div>
+          <p class="dest-desc">The city of elegance and history</p>
+        </div>
+        </div>  
+
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY CHAPTERS -->
+<section class="chapters" id="chapters">
+  <div class="section-inner">
+    <div class="chapters-header reveal">
+      <p class="section-eyebrow">The Story So Far</p>
+      <h2 class="section-title">Kathrine's <span class="t-teal">Journey</span></h2>
+      <div class="holo-divider"></div>
+      <p style="font-family:var(--font-italic);font-style:italic;font-size:1.1rem;color:var(--white-dim);max-width:560px;">
+        Every great journey has a beginning. Follow Kathrine chapter by chapter — one city, one world at a time.
+      </p>
+    </div>
+
+    <div class="chapters-grid">
+
+      <!-- CHAPTER 1 — Istanbul (ACTIVE) -->
+      <div class="chapter-card chapter-active reveal">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&q=80" alt="Istanbul"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-active">Chapter 01 · Now</div>
+          <div class="chapter-coord">41.0082° N, 28.9784° E</div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Phase 1 · Eastern Europe</p>
+          <h3 class="chapter-city">Istanbul</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Where East meets West and every sunset sets the Bosphorus on fire. Kathrine's journey begins here.</p>
+          <a href="#journal" class="chapter-cta">Read the Journal →</a>
+        </div>
+      </div>
+
+      <!-- CHAPTER 2 — Prague -->
+      <div class="chapter-card chapter-soon reveal" style="transition-delay:0.08s">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=800&q=80" alt="Prague"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-soon">Chapter 02 · Coming Soon</div>
+          <div class="chapter-coord">50.0755° N, 14.4378° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Phase 1 · Eastern Europe</p>
+          <h3 class="chapter-city">Prague</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Gothic spires, cobblestone fog and a city that breathes like a dark fairytale.</p>
+          <span class="chapter-coming">Unlocking Soon</span>
+        </div>
+      </div>
+
+      <!-- CHAPTER 3 — Dubai -->
+      <div class="chapter-card chapter-soon reveal" style="transition-delay:0.16s">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80" alt="Dubai"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-soon">Chapter 03 · Coming Soon</div>
+          <div class="chapter-coord">25.2048° N, 55.2708° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Phase 2 · Middle East</p>
+          <h3 class="chapter-city">Dubai</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Luxury rising from desert gold. Rooftops, skylines and a city built from pure ambition.</p>
+          <span class="chapter-coming">Unlocking Soon</span>
+        </div>
+      </div>
+
+      <!-- CHAPTER 4 — Marrakech -->
+      <div class="chapter-card chapter-future reveal" style="transition-delay:0.24s">
+        <div class="chapter-img">
+          <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647316/paul-macallan-CFKksjYRSQ8-unsplash_adzffm.jpg" alt="Marrakech"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Chapter 04 · Future</div>
+          <div class="chapter-coord">31.6295° N, 7.9811° W</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Phase 2 · Middle East</p>
+          <h3 class="chapter-city">Marrakech</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Spice markets, riads and mystery. A city that swallows you whole in the best possible way.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+
+      <!-- CHAPTER 5 — Tokyo -->
+      <div class="chapter-card chapter-future reveal" style="transition-delay:0.32s">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80" alt="Tokyo"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Chapter 05 · Future</div>
+          <div class="chapter-coord">35.6762° N, 139.6503° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Phase 3 · Asia</p>
+          <h3 class="chapter-city">Tokyo</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Neon bleeds into rain-soaked streets. A city that never quiets and never looks the same twice.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+
+      <!-- CHAPTER 6 — Bali -->
+      <div class="chapter-card chapter-future reveal" style="transition-delay:0.40s">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80" alt="Bali"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Chapter 06 · Future</div>
+          <div class="chapter-coord">8.3405° S, 115.0920° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Phase 3 · Asia</p>
+          <h3 class="chapter-city">Bali</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Jungle luxury and temple silence. The island that feels like it exists in another dimension.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- JOURNAL -->
+<section class="journal" id="journal">
+  <div class="section-inner">
+    <div class="journal-header reveal">
+      <div>
+        <p class="section-eyebrow">Transmission Log</p>
+        <h2 class="section-title">Travel <span class="t-gold">Journal</span></h2>
+        <div class="holo-divider"></div>
+      </div>
+      <a href="#" class="btn-neon" style="font-size:0.58rem;padding:0.7rem 1.4rem;white-space:nowrap">All Entries →</a>
+    </div>
+    <div class="journal-grid">
+
+      <div class="journal-card reveal">
+        <div class="journal-thumb">
+          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=75" alt="Tokyo" loading="lazy"/>
+          <div class="journal-thumb-overlay"></div>
+        </div>
+        <div class="journal-body">
+          <div class="journal-meta">
+            <span class="journal-date">May 2025</span>
+            <div class="journal-dot"></div>
+            <span class="journal-loc">Tokyo, Japan</span>
+          </div>
+          <h3 class="journal-title">She arrived at midnight, when Tokyo doesn't sleep</h3>
+          <p class="journal-excerpt">The city pulsed like a living thing. Neon signs bled into puddles on the pavement, and Kathrine stood still while everything moved around her…</p>
+          <a href="#" class="journal-read">Read entry →</a>
+        </div>
+      </div>
+
+      <div class="journal-card reveal" style="transition-delay:0.1s">
+        <div class="journal-thumb">
+          <img src="https://images.unsplash.com/photo-1513326738677-b964603b136d?w=600&q=75" alt="Moscow" loading="lazy"/>
+          <div class="journal-thumb-overlay"></div>
+        </div>
+        <div class="journal-body">
+          <div class="journal-meta">
+            <span class="journal-date">March 2025</span>
+            <div class="journal-dot"></div>
+            <span class="journal-loc">Moscow, Russia</span>
+          </div>
+          <h3 class="journal-title">Midnight Moscow — Cold air, warm gold</h3>
+          <p class="journal-excerpt">There is a specific kind of quiet that only snow can make. She watched the domes of St Basil's glow amber against a violet sky…</p>
+          <a href="#" class="journal-read">Read entry →</a>
+        </div>
+      </div>
+
+      <div class="journal-card reveal" style="transition-delay:0.2s">
+        <div class="journal-thumb">
+          <img src="https://images.unsplash.com/photo-1589197331516-4d84b72ebde3?w=600&q=75" alt="Bora Bora" loading="lazy"/>
+          <div class="journal-thumb-overlay"></div>
+        </div>
+        <div class="journal-body">
+          <div class="journal-meta">
+            <span class="journal-date">Jan 2025</span>
+            <div class="journal-dot"></div>
+            <span class="journal-loc">Bora Bora</span>
+          </div>
+          <h3 class="journal-title">The water here is the colour of forgotten dreams</h3>
+          <p class="journal-excerpt">She didn't need to go anywhere. The overwater bungalow was its own country. Turquoise merging endlessly with a pale sky…</p>
+          <a href="#" class="journal-read">Read entry →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WALLPAPERS -->
+<section class="wallpapers" id="wallpapers">
+  <div class="wallpaper-header reveal">
+    <p class="section-eyebrow" style="justify-content:center">Digital Collections</p>
+    <h2 class="section-title" style="text-align:center">Cinematic <span class="t-teal">Wallpapers</span></h2>
+    <div class="holo-divider" style="margin:0 auto 1.5rem"></div>
+    <p>Carry Kathrine's world in your pocket. Downloadable phone &amp; desktop packs.</p>
+  </div>
+
+  <div class="wp-strip">
+    <div class="wp-card">
+      <div class="wp-thumb">
+        <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&q=75" alt="Tokyo Nights" loading="lazy"/>
+        <div class="wp-thumb-overlay"></div>
+        <span class="wp-badge teal-badge">New</span>
+      </div>
+      <div class="wp-foot">
+        <span class="wp-name">Tokyo Nights</span>
+        <span class="wp-price">$4</span>
+      </div>
+    </div>
+    <div class="wp-card">
+      <div class="wp-thumb">
+        <img src="/Nano Banana 2 - A cinematic editorial-style photograph of a breathtakingly beautiful 21-year-old Cau.png" alt="Amsterdam" loading="lazy"/>
+        <div class="wp-thumb-overlay"></div>
+      </div>
+      <div class="wp-foot">
+        <span class="wp-name">Amsterdam</span>
+        <span class="wp-price">$4</span>
+      </div>
+    </div>
+    <div class="wp-card">
+      <div class="wp-thumb">
+        <img src="https://images.unsplash.com/photo-1513326738677-b964603b136d?w=400&q=75" alt="Midnight Moscow" loading="lazy"/>
+        <div class="wp-thumb-overlay"></div>
+        <span class="wp-badge gold-badge">Popular</span>
+      </div>
+      <div class="wp-foot">
+        <span class="wp-name">Midnight Moscow</span>
+        <span class="wp-price">$4</span>
+      </div>
+    </div>
+    <div class="wp-card">
+      <div class="wp-thumb">
+        <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400&q=75" alt="Swiss Silence" loading="lazy"/>
+        <div class="wp-thumb-overlay"></div>
+      </div>
+      <div class="wp-foot">
+        <span class="wp-name">Swiss Silence</span>
+        <span class="wp-price">$4</span>
+      </div>
+    </div>
+    <div class="wp-card">
+      <div class="wp-thumb">
+        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&q=75" alt="Dubai Gold" loading="lazy"/>
+        <div class="wp-thumb-overlay"></div>
+      </div>
+      <div class="wp-foot">
+        <span class="wp-name">Dubai Gold</span>
+        <span class="wp-price">$4</span>
+      </div>
+    </div>
+    <div class="wp-card">
+      <div class="wp-thumb">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=75" alt="World Pack" loading="lazy"/>
+        <div class="wp-thumb-overlay"></div>
+        <span class="wp-badge gold-badge">Bundle</span>
+      </div>
+      <div class="wp-foot">
+        <span class="wp-name">Full Collection</span>
+        <span class="wp-price">$14</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wp-cta reveal">
+    <a href="#" class="btn-neon-gold">Shop All Wallpapers</a>
+  </div>
+</section>
+
+<!-- EMAIL -->
+<section class="email-section" id="join">
+  <!-- Circuit decoration -->
+  <svg class="circuit left" width="120" height="300" viewBox="0 0 120 300" fill="none">
+    <line x1="100" y1="0" x2="100" y2="120" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <line x1="100" y1="120" x2="40" y2="120" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <line x1="40" y1="120" x2="40" y2="180" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <line x1="40" y1="180" x2="80" y2="180" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <line x1="80" y1="180" x2="80" y2="300" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <circle cx="100" cy="120" r="4" fill="rgba(0,255,229,0.5)"/>
+    <circle cx="40" cy="180" r="4" fill="rgba(201,168,76,0.5)"/>
+    <circle cx="80" cy="180" r="3" fill="rgba(0,255,229,0.3)"/>
+  </svg>
+  <svg class="circuit right" width="120" height="300" viewBox="0 0 120 300" fill="none">
+    <line x1="100" y1="0" x2="100" y2="120" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <line x1="100" y1="120" x2="40" y2="120" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <line x1="40" y1="120" x2="40" y2="180" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <line x1="40" y1="180" x2="80" y2="180" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <line x1="80" y1="180" x2="80" y2="300" stroke="rgba(0,255,229,0.3)" stroke-width="1"/>
+    <circle cx="100" cy="120" r="4" fill="rgba(0,255,229,0.5)"/>
+    <circle cx="40" cy="180" r="4" fill="rgba(201,168,76,0.5)"/>
+  </svg>
+
+  <div class="email-inner reveal">
+    <p class="section-eyebrow">Transmission Open</p>
+    <h2 class="section-title" style="text-align:center">Join the <span class="t-teal">Travel Journal</span></h2>
+    <div class="holo-divider" style="margin:0 auto 1.5rem;background:linear-gradient(90deg,transparent,var(--teal),var(--cyan),transparent)"></div>
+    <p class="email-body-text">New destinations, cinematic wallpapers, and stories from the road — delivered to your inbox. No noise, only wanderlust.</p>
+    <div class="email-form">
+      <input type="email" placeholder="Enter your email address" id="email-input"/>
+      <button type="button" id="sub-btn">Subscribe</button>
+    </div>
+    <p class="email-note">No spam · Unsubscribe anytime · Pure wanderlust</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">KTT:// Kathrine's Tour & Travels</div>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#journal">Journal</a></li>
+    <li><a href="#wallpapers">Wallpapers</a></li>
+    <li><a href="https://tiktok.com/@kathrine.tours.an" target="_blank">TikTok</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Kathrine's Tour & Travels · AI Cinematic Travel Brand · All Rights Reserved</p>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+ 
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Hero image slideshow — synced to glitch line
+const heroImgs = document.querySelectorAll('.hero-bg-img img');
+const glitchLine = document.querySelector('.hero-glitch-line');
+let current = 0;
+
+function nextImage() {
+  heroImgs[current].classList.remove('active');
+  current = (current + 1) % heroImgs.length;
+  heroImgs[current].classList.add('active');
+}
+
+glitchLine.addEventListener('animationiteration', nextImage);
+
+// Fallback in case event doesn't fire
+setInterval(nextImage, 8000);
+
+// ── PARTICLE SYSTEM ──
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+ 
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+ 
+  const COLORS = [
+    'rgba(0,255,229,',   // teal
+    'rgba(0,212,255,',   // cyan
+    'rgba(201,168,76,',  // gold
+    'rgba(255,255,255,', // white
+  ];
+ 
+  // Particle types: dot, cross, diamond
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(initial) {
+      this.x = Math.random() * canvas.width;
+      this.y = initial ? Math.random() * canvas.height : -10;
+      this.size = Math.random() * 1.8 + 0.4;
+      this.speedY = Math.random() * 0.35 + 0.08;
+      this.speedX = (Math.random() - 0.5) * 0.15;
+      this.opacity = Math.random() * 0.5 + 0.15;
+      this.opacityDir = (Math.random() - 0.5) * 0.003;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      this.type = Math.random() < 0.7 ? 'dot' : Math.random() < 0.5 ? 'diamond' : 'cross';
+      this.rotation = Math.random() * Math.PI * 2;
+      this.rotSpeed = (Math.random() - 0.5) * 0.008;
+      this.pulse = Math.random() * Math.PI * 2;
+    }
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX;
+      this.rotation += this.rotSpeed;
+      this.pulse += 0.02;
+      this.opacity += this.opacityDir;
+      if (this.opacity > 0.65) this.opacityDir = -Math.abs(this.opacityDir);
+      if (this.opacity < 0.05) this.opacityDir = Math.abs(this.opacityDir);
+      if (this.y > canvas.height + 20) this.reset(false);
+      if (this.x < -20 || this.x > canvas.width + 20) this.reset(false);
+    }
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation);
+      const glow = this.size * (1 + 0.3 * Math.sin(this.pulse));
+      const col = this.color + this.opacity + ')';
+      const glowCol = this.color + (this.opacity * 0.3) + ')';
+ 
+      if (this.type === 'dot') {
+        // Glowing dot
+        const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, glow * 4);
+        grad.addColorStop(0, this.color + this.opacity + ')');
+        grad.addColorStop(1, this.color + '0)');
+        ctx.beginPath();
+        ctx.arc(0, 0, glow * 4, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(0, 0, glow, 0, Math.PI * 2);
+        ctx.fillStyle = col;
+        ctx.fill();
+      } else if (this.type === 'diamond') {
+        const s = glow * 2.5;
+        ctx.beginPath();
+        ctx.moveTo(0, -s);
+        ctx.lineTo(s * 0.6, 0);
+        ctx.lineTo(0, s);
+        ctx.lineTo(-s * 0.6, 0);
+        ctx.closePath();
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+        ctx.fillStyle = glowCol;
+        ctx.fill();
+      } else {
+        // Cross / plus
+        const s = glow * 2;
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 0.7;
+        ctx.beginPath();
+        ctx.moveTo(-s, 0); ctx.lineTo(s, 0);
+        ctx.moveTo(0, -s); ctx.lineTo(0, s);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+  }
+ 
+  // Create particles
+  const PARTICLE_COUNT = 90;
+  const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
+ 
+  // Occasional shooting star
+  class ShootingStar {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width * 0.8;
+      this.y = Math.random() * canvas.height * 0.4;
+      this.len = Math.random() * 120 + 60;
+      this.speed = Math.random() * 6 + 4;
+      this.angle = Math.PI / 6 + (Math.random() - 0.5) * 0.3;
+      this.opacity = 0;
+      this.active = false;
+      this.timer = Math.random() * 400 + 200;
+    }
+    update() {
+      this.timer--;
+      if (this.timer <= 0 && !this.active) {
+        this.active = true;
+        this.opacity = 0.8;
+        this.reset();
+        this.active = true;
+        this.timer = 999999;
+      }
+      if (this.active) {
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+        this.opacity -= 0.022;
+        if (this.opacity <= 0) { this.active = false; this.reset(); }
+      }
+    }
+    draw() {
+      if (!this.active) return;
+      ctx.save();
+      ctx.strokeStyle = `rgba(0,255,229,${this.opacity})`;
+      ctx.shadowColor = 'rgba(0,255,229,0.8)';
+      ctx.shadowBlur = 8;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.lineTo(
+        this.x - Math.cos(this.angle) * this.len,
+        this.y - Math.sin(this.angle) * this.len
+      );
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+ 
+  const stars = [new ShootingStar(), new ShootingStar()];
+ 
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    stars.forEach(s => { s.update(); s.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+ 
+  // Email subscribe
+  document.getElementById('sub-btn').addEventListener('click', function() {
+    const input = document.getElementById('email-input');
+    if (input.value && input.value.includes('@')) {
+      input.value = '';
+      input.placeholder = '✓ Transmission received. Welcome aboard.';
+      this.textContent = 'Online';
+      this.style.background = 'var(--gold)';
+    } else {
+      input.style.borderColor = 'rgba(255,50,50,0.6)';
+      setTimeout(() => input.style.borderColor = '', 1000);
+    }
+  });
+  
+</script>
+</body>
+</html>
