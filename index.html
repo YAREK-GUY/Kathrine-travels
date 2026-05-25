@@ -12,6 +12,9 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/">
 <link rel="manifest" href="/favicon/site.webmanifest">
 <link rel="shortcut icon" href="/favicon/favicon.ico">
+  
+<!-- Brevo styles -->
+<link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -1863,10 +1866,20 @@ footer::before{
     <h2 class="section-title" style="text-align:center">Join the <span class="t-teal">Travel Journal</span></h2>
     <div class="holo-divider" style="margin:0 auto 1.5rem;background:linear-gradient(90deg,transparent,var(--teal),var(--cyan),transparent)"></div>
     <p class="email-body-text">New destinations, cinematic wallpapers, and stories from the road — delivered to your inbox. No noise, only wanderlust.</p>
-    <div class="email-form">
-      <input type="email" placeholder="Enter your email address" id="email-input"/>
-      <button type="button" id="sub-btn">Subscribe</button>
-    </div>
+    <!-- Status messages -->
+    <div id="email-error" class="email-msg error" style="display:none">✕ Subscription failed. Please try again.</div>
+    <div id="email-success" class="email-msg success" style="display:none">✓ Transmission received. Welcome to Kathrine's Journey.</div>
+    <!-- Brevo form — keeps your design, sends to Brevo -->
+    <form id="sib-form" method="POST"
+      action="https://1f053547.sibforms.com/serve/MUIFAD8gtQuZnWjjyM7igGeAgIBzfzGZh6JgZdOwkjj5lDTkOTgoo0S8AB_Qa3GSH7qWdlRQAHkTcOxGoO9EWi-vfc8VNUE8aPGcoH4sthU7cvxVMvczsD55hzkdH0nR8-uHGQIkaQjg85fvOle6sApk9AFVOwRA86FhGOvNAPeXPSlBYktpzwH5DRZP1iBSwyb8JGCTL9zjF7BoPw=="
+      data-type="subscription">
+      <div class="email-form">
+        <input type="email" name="EMAIL" id="email-input" placeholder="Enter your email address" required autocomplete="off"/>
+        <input type="text" name="email_address_check" value="" style="display:none">
+        <input type="hidden" name="locale" value="en">
+        <button type="submit">Subscribe</button>
+      </div>
+    </form>
     <p class="email-note">No spam · Unsubscribe anytime · Pure wanderlust</p>
   </div>
 </section>
@@ -1918,6 +1931,19 @@ glitchLine.addEventListener('animationiteration', nextImage);
 // Fallback in case event doesn't fire
 setInterval(nextImage, 8000);
 
+   // Brevo form feedback
+  const sibForm = document.getElementById('sib-form');
+  if (sibForm) {
+    sibForm.addEventListener('submit', function() {
+      const err = document.getElementById('email-error');
+      const suc = document.getElementById('email-success');
+      err.style.display = 'none';
+      suc.style.display = 'none';
+      // Show success after short delay (Brevo handles actual redirect)
+      setTimeout(() => { suc.style.display = 'block'; }, 800);
+    });
+  }
+  
 // ── PARTICLE SYSTEM ──
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
@@ -2073,20 +2099,17 @@ setInterval(nextImage, 8000);
   }
   animate();
  
-  // Email subscribe
-  document.getElementById('sub-btn').addEventListener('click', function() {
-    const input = document.getElementById('email-input');
-    if (input.value && input.value.includes('@')) {
-      input.value = '';
-      input.placeholder = '✓ Transmission received. Welcome aboard.';
-      this.textContent = 'Online';
-      this.style.background = 'var(--gold)';
-    } else {
-      input.style.borderColor = 'rgba(255,50,50,0.6)';
-      setTimeout(() => input.style.borderColor = '', 1000);
-    }
-  });
-  
+  </script>
+
+  <!-- Brevo scripts -->
+<script>
+  window.REQUIRED_CODE_ERROR_MESSAGE = 'Please choose a country code';
+  window.LOCALE = 'en';
+  window.EMAIL_INVALID_MESSAGE = "Please enter a valid email address.";
+  window.REQUIRED_ERROR_MESSAGE = "This field cannot be left blank.";
+  window.GENERIC_INVALID_MESSAGE = "The information provided is invalid. Please try again.";
 </script>
+<script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+ 
 </body>
 </html>
