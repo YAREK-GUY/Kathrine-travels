@@ -1701,63 +1701,114 @@ footer::before{
       </div>
       <a href="#" class="btn-neon" style="font-size:0.58rem;padding:0.7rem 1.4rem;white-space:nowrap">All Entries →</a>
     </div>
+ 
     <div class="journal-grid">
-
-      <div class="journal-card reveal">
-        <div class="journal-thumb">
-          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=75" alt="Tokyo" loading="lazy"/>
-          <div class="journal-thumb-overlay"></div>
+ 
+      <!-- FEATURED — Istanbul (Chapter 01) -->
+      <div class="journal-card-featured reveal" onclick="openEntry('istanbul')">
+        <div class="jf-thumb">
+          <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=1200&q=80" alt="Istanbul" loading="lazy"/>
+          <div class="jf-thumb-overlay"></div>
+          <span class="jf-chapter-tag">Chapter 01 · Active</span>
+          <span class="jf-read-time">4 min read</span>
+          <span class="jf-coord">41.0082° N, 28.9784° E</span>
         </div>
-        <div class="journal-body">
-          <div class="journal-meta">
-            <span class="journal-date">May 2025</span>
-            <div class="journal-dot"></div>
-            <span class="journal-loc">Tokyo, Japan</span>
+        <div class="jf-body">
+          <div class="jf-meta">
+            <span class="jf-entry-num">Entry 001</span>
+            <div class="jf-dot"></div>
+            <span class="jf-date">June 2026</span>
+            <div class="jf-dot"></div>
+            <span class="jf-loc">Istanbul, Turkey</span>
           </div>
-          <h3 class="journal-title">She arrived at midnight, when Tokyo doesn't sleep</h3>
-          <p class="journal-excerpt">The city pulsed like a living thing. Neon signs bled into puddles on the pavement, and Kathrine stood still while everything moved around her…</p>
-          <a href="#" class="journal-read">Read entry →</a>
+          <h3 class="jf-title">The city that refused to choose between two worlds</h3>
+          <p class="jf-excerpt">She crossed the Bosphorus at dusk and felt the exact moment Europe became Asia. Istanbul doesn't belong to either continent — it belongs to something older, something that predates maps entirely…</p>
+          <button class="jf-read-btn">
+            Open Entry
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
         </div>
       </div>
-
-      <div class="journal-card reveal" style="transition-delay:0.1s">
-        <div class="journal-thumb">
-          <img src="https://images.unsplash.com/photo-1513326738677-b964603b136d?w=600&q=75" alt="Moscow" loading="lazy"/>
-          <div class="journal-thumb-overlay"></div>
-        </div>
-        <div class="journal-body">
-          <div class="journal-meta">
-            <span class="journal-date">March 2025</span>
-            <div class="journal-dot"></div>
-            <span class="journal-loc">Moscow, Russia</span>
+ 
+      <!-- SIDE — Moscow (LOCKED) -->
+      <div class="journal-card-side journal-locked reveal" style="transition-delay:0.1s">
+        <div class="js-thumb">
+          <img src="https://images.unsplash.com/photo-1513326738677-b964603b136d?w=700&q=75" alt="Moscow" loading="lazy"/>
+          <div class="js-thumb-overlay"></div>
+          <span class="js-chapter">Entry 002</span>
+          <div class="js-lock-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
-          <h3 class="journal-title">Midnight Moscow — Cold air, warm gold</h3>
-          <p class="journal-excerpt">There is a specific kind of quiet that only snow can make. She watched the domes of St Basil's glow amber against a violet sky…</p>
-          <a href="#" class="journal-read">Read entry →</a>
+        </div>
+        <div class="js-body">
+          <div class="js-meta">
+            <span class="js-date">August 2026</span>
+            <div class="js-dot"></div>
+            <span class="js-loc">Moscow, Russia</span>
+          </div>
+          <h3 class="js-title">Midnight Moscow — Cold air, warm gold</h3>
+          <p class="js-excerpt">There is a specific kind of quiet that only snow can make…</p>
+          <span class="js-locked-label">Unlocks with Chapter 02</span>
         </div>
       </div>
-
-      <div class="journal-card reveal" style="transition-delay:0.2s">
-        <div class="journal-thumb">
-          <img src="https://images.unsplash.com/photo-1589197331516-4d84b72ebde3?w=600&q=75" alt="Bora Bora" loading="lazy"/>
-          <div class="journal-thumb-overlay"></div>
-        </div>
-        <div class="journal-body">
-          <div class="journal-meta">
-            <span class="journal-date">Jan 2025</span>
-            <div class="journal-dot"></div>
-            <span class="journal-loc">Bora Bora</span>
+ 
+      <!-- SIDE — Tokyo (LOCKED) -->
+      <div class="journal-card-side journal-locked reveal" style="transition-delay:0.2s">
+        <div class="js-thumb">
+          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=700&q=75" alt="Tokyo" loading="lazy"/>
+          <div class="js-thumb-overlay"></div>
+          <span class="js-chapter">Entry 003</span>
+          <div class="js-lock-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
-          <h3 class="journal-title">The water here is the colour of forgotten dreams</h3>
-          <p class="journal-excerpt">She didn't need to go anywhere. The overwater bungalow was its own country. Turquoise merging endlessly with a pale sky…</p>
-          <a href="#" class="journal-read">Read entry →</a>
+        </div>
+        <div class="js-body">
+          <div class="js-meta">
+            <span class="js-date">September 2026</span>
+            <div class="js-dot"></div>
+            <span class="js-loc">Tokyo, Japan</span>
+          </div>
+          <h3 class="js-title">She arrived at midnight, when Tokyo doesn't sleep</h3>
+          <p class="js-excerpt">Neon signs bled into puddles and Kathrine stood still while everything moved around her…</p>
+          <span class="js-locked-label">Unlocks with Chapter 05</span>
         </div>
       </div>
-
+ 
     </div>
   </div>
 </section>
-
+ 
+<!-- JOURNAL OVERLAY READER -->
+<div class="journal-overlay" id="journalOverlay">
+  <div class="jo-backdrop" onclick="closeEntry()"></div>
+  <div class="jo-panel" id="joPanel">
+    <button class="jo-close" onclick="closeEntry()">✕ Close</button>
+    <div class="jo-hero">
+      <img id="jo-img" src="" alt=""/>
+      <div class="jo-hero-overlay"></div>
+      <div class="jo-hero-info">
+        <div class="jo-chapter-tag" id="jo-tag"></div>
+        <h2 class="jo-hero-title" id="jo-title"></h2>
+      </div>
+    </div>
+    <div class="jo-body">
+      <div class="jo-meta-strip">
+        <span class="jo-meta-item loc" id="jo-loc"></span>
+        <div class="jo-meta-divider"></div>
+        <span class="jo-meta-item date" id="jo-date"></span>
+        <div class="jo-meta-divider"></div>
+        <span class="jo-meta-item reading" id="jo-read"></span>
+      </div>
+      <div id="jo-content"></div>
+      <div class="jo-coord-footer" id="jo-coord"></div>
+      <div class="jo-nav">
+        <button class="jo-nav-btn" id="jo-prev-btn" onclick="prevEntry()">← Journal</button>
+        <button class="jo-nav-btn" id="jo-next-btn" onclick="nextEntry()">Next Entry →</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
 <!-- WALLPAPERS -->
 <section class="wallpapers" id="wallpapers">
   <div class="wallpaper-header reveal">
