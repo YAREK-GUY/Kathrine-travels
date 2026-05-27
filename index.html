@@ -2117,6 +2117,106 @@ setInterval(nextImage, 8000);
     requestAnimationFrame(animate);
   }
   animate();
+  
+   // JOURNAL ENTRIES DATA
+  const entryKeys = ['istanbul', 'moscow', 'tokyo'];
+  let currentEntryIndex = 0;
+  const entries = {
+    istanbul: {
+      img: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=1400&q=85',
+      tag: 'Chapter 01 · Istanbul',
+      title: 'The city that refused to choose between two worlds',
+      loc: 'Istanbul, Turkey',
+      date: 'January 2026',
+      read: '4 min read',
+      coord: '41.0082° N, 28.9784° E · Phase 1 · Eastern Europe',
+      content: `
+        <p class="jo-text">She crossed the Bosphorus at dusk and felt the exact moment Europe became Asia. Istanbul doesn't belong to either continent — it belongs to something older, something that predates maps entirely. The water was the colour of hammered bronze and the minarets rose from the hillside like fingers reaching for a sky that hadn't decided what colour to be yet.</p>
+        <p class="jo-text">The Grand Bazaar smelled of saffron and leather and something ancient she had no name for. Kathrine moved through it slowly, letting the noise wash over her — merchants calling in languages that curved and dipped like calligraphy, silk catching the lamplight, the sound of a çay glass placed on marble. She bought nothing. She was collecting something that couldn't be purchased.</p>
+        <div class="jo-pull-quote">"Every city has a centre of gravity. Istanbul's is the water. Everything — the history, the noise, the beauty — orbits the Bosphorus."</div>
+        <p class="jo-text">At midnight she sat on a rooftop in Sultanahmet and watched the Blue Mosque turn from gold to silver as the lights shifted. The call to prayer began — not from one minaret, but from dozens across the city simultaneously, each voice slightly different, overlapping like a chord struck by an entire skyline. She didn't move for a long time.</p>
+        <p class="jo-text">Istanbul is not a city you visit. It is a city that happens to you. She left the next morning feeling like someone had rearranged something behind her eyes.</p>
+      `
+    },
+    moscow: {
+      img: 'https://images.unsplash.com/photo-1513326738677-b964603b136d?w=1400&q=85',
+      tag: 'Entry 002 · Moscow',
+      title: 'Midnight Moscow — Cold air, warm gold',
+      loc: 'Moscow, Russia',
+      date: 'February 2026',
+      read: '3 min read',
+      coord: '55.7558° N, 37.6173° E · Phase 1 · Eastern Europe',
+      content: `
+        <p class="jo-text">There is a specific kind of quiet that only snow can make. Not silence — snow doesn't produce silence — but a softening, a muffling of the world's hard edges that feels almost deliberate, as though the city is holding its breath. Kathrine arrived in Moscow at 2am and stepped out of the airport into that quiet and stood in it for a full minute before moving.</p>
+        <p class="jo-text">St Basil's Cathedral in daylight is spectacular. At midnight, with the temperature at minus fourteen and the square entirely empty, it becomes something else. The domes glowed amber against a violet sky, each one a different pattern, a different colour, as though nine different architects each built one and refused to communicate with the others. It is beautiful in the way that defies logic.</p>
+        <div class="jo-pull-quote">"Russia keeps its grandeur behind a straight face. You have to earn the beauty. You have to walk into the cold to see it."</div>
+        <p class="jo-text">She drank black tea from a glass in a café near the metro at 3am. An old man played chess against himself at the next table. Nobody found this unusual. Moscow at night has its own rules, its own logic, its own particular brand of theatre that never acknowledges it's performing.</p>
+        <p class="jo-text">She left with two things: a photograph of the domes at dawn that she will never fully explain to anyone who wasn't there, and the quiet. She carried the quiet for days afterward.</p>
+      `
+    },
+    tokyo: {
+      img: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1400&q=85',
+      tag: 'Entry 003 · Tokyo',
+      title: 'She arrived at midnight, when Tokyo doesn\'t sleep',
+      loc: 'Tokyo, Japan',
+      date: 'March 2026',
+      read: '3 min read',
+      coord: '35.6762° N, 139.6503° E · Phase 3 · Asia',
+      content: `
+        <p class="jo-text">The city pulsed like a living thing. Neon signs bled into puddles on the pavement — pink and cyan and amber, colours that had no business being that beautiful reflected in rainwater — and Kathrine stood still on the crossing in Shinjuku while everything moved around her. A river of umbrellas. The sound of a city that had made peace with never stopping.</p>
+        <p class="jo-text">Tokyo's contradiction is this: it is one of the loudest cities on earth, and yet somehow it never feels chaotic. There is a precision to the noise. The trains arrive at the exact second they say they will. The queues form without anyone instructing them to. The city hums with organised electricity, like a machine that has learned to dream.</p>
+        <div class="jo-pull-quote">"Tokyo taught me that beauty and efficiency are not opposites. They can be the same thing, arranged differently."</div>
+        <p class="jo-text">She ate ramen at midnight in a six-seat basement restaurant in Shibuya. The chef didn't speak and neither did she. The broth tasted like something that had been thinking about itself for twelve hours. Outside, the city continued its permanent performance, indifferent and magnificent.</p>
+        <p class="jo-text">She would come back. She already knew it standing there, chopsticks in hand, neon bleeding through the window. Some cities you visit. Tokyo visits you back.</p>
+      `
+    }
+  };
+ 
+  function openEntry(key) {
+    const e = entries[key];
+    if (!e) return;
+    currentEntryIndex = entryKeys.indexOf(key);
+    document.getElementById('jo-img').src = e.img;
+    document.getElementById('jo-tag').textContent = e.tag;
+    document.getElementById('jo-title').textContent = e.title;
+    document.getElementById('jo-loc').textContent = e.loc;
+    document.getElementById('jo-date').textContent = e.date;
+    document.getElementById('jo-read').textContent = e.read;
+    document.getElementById('jo-coord').textContent = e.coord;
+    document.getElementById('jo-content').innerHTML = e.content;
+    // Update nav button labels
+    const prevKey = entryKeys[currentEntryIndex - 1];
+    const nextKey = entryKeys[currentEntryIndex + 1];
+    document.getElementById('jo-prev-btn').textContent = prevKey ? '← ' + entries[prevKey].loc.split(',')[0] : '← Journal';
+    document.getElementById('jo-next-btn').textContent = nextKey ? entries[nextKey].loc.split(',')[0] + ' →' : 'Close ✕';
+    const overlay = document.getElementById('journalOverlay');
+    overlay.classList.add('open');
+    document.getElementById('joPanel').scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+ 
+  function prevEntry() {
+    if (currentEntryIndex > 0) {
+      openEntry(entryKeys[currentEntryIndex - 1]);
+    } else {
+      closeEntry();
+    }
+  }
+ 
+  function nextEntry() {
+    if (currentEntryIndex < entryKeys.length - 1) {
+      openEntry(entryKeys[currentEntryIndex + 1]);
+    } else {
+      closeEntry();
+    }
+  }
+ 
+  function closeEntry() {
+    document.getElementById('journalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+ 
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEntry(); });
  
   </script>
 
