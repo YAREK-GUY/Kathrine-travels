@@ -1179,6 +1179,7 @@ footer::before{
 .chapter-img img {
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), filter 0.4s;
 }
@@ -1187,7 +1188,7 @@ footer::before{
   filter: brightness(0.35) saturate(0.4) grayscale(0.5);
 }
 .chapter-card.chapter-active .chapter-img img { filter: brightness(0.55) saturate(1.3); }
-.chapter-card:hover .chapter-img img { transform: scale(1.06); filter: brightness(0.6) saturate(1.3) grayscale(0); }
+.chapter-card:hover .chapter-img img { transform: scale(1.03); filter: brightness(0.6) saturate(1.3) grayscale(0); }
 
 .chapter-img-overlay {
   position: absolute; inset: 0;
@@ -1304,6 +1305,158 @@ footer::before{
 }
 @media(max-width:480px) {
   .chapters-grid { grid-template-columns: 1fr; }
+}
+
+/* ── REGIONS (region-first journey selector) ── */
+.region-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.region-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0,255,229,0.06);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.region-card:hover { border-color: rgba(0,255,229,0.25); }
+.region-card.region-active {
+  border-color: rgba(0,255,229,0.45);
+  box-shadow: 0 0 30px rgba(0,255,229,0.1), inset 0 0 20px rgba(0,255,229,0.04);
+}
+
+.region-img { position: relative; aspect-ratio: 4/3; overflow: hidden; }
+.region-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.45) saturate(1.2);
+  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), filter 0.4s;
+}
+.region-card:hover .region-img img,
+.region-card.region-active .region-img img {
+  transform: scale(1.05);
+  filter: brightness(0.55) saturate(1.4);
+}
+.region-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(2,4,8,0.95) 0%, transparent 60%);
+}
+
+.region-status {
+  position: absolute;
+  top: 1rem; left: 1rem;
+  font-family: var(--font-tech);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  z-index: 2;
+}
+.status-active { background: var(--teal); color: var(--ink); }
+.status-soon   { background: var(--gold); color: var(--ink); }
+.status-future { background: rgba(122,155,170,0.2); color: var(--white-dim); border: 1px solid rgba(122,155,170,0.2); }
+
+.region-count {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  z-index: 2;
+  font-family: var(--font-tech);
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(232,244,248,0.8);
+  background: rgba(2,4,8,0.6);
+  border: 1px solid rgba(0,255,229,0.2);
+  padding: 0.3rem 0.7rem;
+}
+
+.region-body {
+  padding: 1.6rem 1.8rem 1.9rem;
+  background: rgba(6,12,18,0.95);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.region-phase {
+  font-family: var(--font-tech);
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.region-title {
+  font-family: var(--font-tech);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.7rem;
+}
+
+.region-line {
+  width: 34px; height: 1px;
+  background: var(--teal);
+  box-shadow: 0 0 8px rgba(0,255,229,0.5);
+  margin-bottom: 0.9rem;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+.region-card:hover .region-line,
+.region-card.region-active .region-line { transform: scaleX(1); }
+
+.region-desc {
+  font-family: var(--font-italic);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--white-dim);
+  line-height: 1.7;
+  flex: 1;
+}
+
+.region-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.3rem;
+  font-family: var(--font-tech);
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--teal);
+  text-shadow: 0 0 8px rgba(0,255,229,0.4);
+}
+.region-chevron { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); flex-shrink: 0; }
+.region-card.region-active .region-chevron { transform: rotate(180deg); }
+
+.region-cities-wrap {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease, margin-top 0.6s;
+  margin-top: 0;
+}
+.region-cities-wrap.open {
+  max-height: 2400px;
+  opacity: 1;
+  margin-top: 2px;
+}
+
+@media(max-width:900px) {
+  .region-grid { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width:768px) {
+  .region-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -1534,7 +1687,7 @@ footer::before{
   </div>
 </section>
 
-<!-- JOURNEY CHAPTERS -->
+<!-- JOURNEY CHAPTERS — REGION FIRST -->
 <section class="chapters" id="chapters">
   <div class="section-inner">
     <div class="chapters-header reveal">
@@ -1542,130 +1695,98 @@ footer::before{
       <h2 class="section-title">Kathrine's <span class="t-teal">Journey</span></h2>
       <div class="holo-divider"></div>
       <p style="font-family:var(--font-italic);font-style:italic;font-size:1.1rem;color:var(--white-dim);max-width:560px;">
-        Every great journey has a beginning. Follow Kathrine chapter by chapter — one city, one world at a time.
+        Every great journey has a beginning. Pick a region to see which cities Kathrine is exploring there.
       </p>
     </div>
 
-    <div class="chapters-grid">
+    <div class="region-grid" id="regionGrid">
 
-      <!-- CHAPTER 1 — Istanbul (ACTIVE) -->
-      <div class="chapter-card chapter-active reveal">
-        <div class="chapter-img">
-          <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&q=80" alt="Istanbul"/>
-          <div class="chapter-img-overlay"></div>
-          <div class="chapter-badge badge-active">Chapter 01 · Now</div>
-          <div class="chapter-coord">41.0082° N, 28.9784° E</div>
+      <!-- REGION 1 — Eastern Europe -->
+      <div class="region-card region-active reveal" data-region="eastern-europe" onclick="toggleRegion(this,'eastern-europe')">
+        <div class="region-img">
+          <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=900&q=80" alt="Eastern Europe"/>
+          <div class="region-img-overlay"></div>
+          <div class="region-status status-active">Now Exploring</div>
+          <div class="region-count">6 Cities</div>
         </div>
-        <div class="chapter-body">
-          <p class="chapter-phase">Phase 1 · Eastern Europe</p>
-          <h3 class="chapter-city">Istanbul</h3>
-          <div class="chapter-line"></div>
-          <p class="chapter-desc">Where East meets West and every sunset sets the Bosphorus on fire. Kathrine's journey begins here.</p>
-          <a href="#guides" class="chapter-cta">Read the Guide →</a>
+        <div class="region-body">
+          <p class="region-phase">Phase 01</p>
+          <h3 class="region-title">Eastern Europe</h3>
+          <div class="region-line"></div>
+          <p class="region-desc">Where empires collided and left behind gold, stone and fire.</p>
+          <div class="region-toggle">
+            <span>Explore Cities</span>
+            <svg class="region-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
         </div>
       </div>
 
-      <!-- CHAPTER 2 — Prague -->
-      <div class="chapter-card chapter-soon reveal" style="transition-delay:0.08s">
-        <div class="chapter-img">
-          <img src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=800&q=80" alt="Prague"/>
-          <div class="chapter-img-overlay"></div>
-          <div class="chapter-badge badge-soon">Chapter 02 · Coming Soon</div>
-          <div class="chapter-coord">50.0755° N, 14.4378° E</div>
-          <div class="chapter-lock">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </div>
+      <!-- REGION 2 — Middle East -->
+      <div class="region-card reveal" data-region="middle-east" onclick="toggleRegion(this,'middle-east')" style="transition-delay:0.1s">
+        <div class="region-img">
+          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=900&q=80" alt="Middle East"/>
+          <div class="region-img-overlay"></div>
+          <div class="region-status status-soon">Coming Soon</div>
+          <div class="region-count">6 Cities</div>
         </div>
-        <div class="chapter-body">
-          <p class="chapter-phase">Phase 1 · Eastern Europe</p>
-          <h3 class="chapter-city">Prague</h3>
-          <div class="chapter-line"></div>
-          <p class="chapter-desc">Gothic spires, cobblestone fog and a city that breathes like a dark fairytale.</p>
-          <span class="chapter-coming">Unlocking Soon</span>
+        <div class="region-body">
+          <p class="region-phase">Phase 02</p>
+          <h3 class="region-title">Middle East</h3>
+          <div class="region-line"></div>
+          <p class="region-desc">Desert gold, rooftop skylines and cities built from pure ambition.</p>
+          <div class="region-toggle">
+            <span>Explore Cities</span>
+            <svg class="region-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
         </div>
       </div>
 
-      <!-- CHAPTER 3 — Dubai -->
-      <div class="chapter-card chapter-soon reveal" style="transition-delay:0.16s">
-        <div class="chapter-img">
-          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80" alt="Dubai"/>
-          <div class="chapter-img-overlay"></div>
-          <div class="chapter-badge badge-soon">Chapter 03 · Coming Soon</div>
-          <div class="chapter-coord">25.2048° N, 55.2708° E</div>
-          <div class="chapter-lock">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </div>
+      <!-- REGION 3 — Africa -->
+      <div class="region-card reveal" data-region="africa" onclick="toggleRegion(this,'africa')" style="transition-delay:0.2s">
+        <div class="region-img">
+          <img src="https://images.unsplash.com/photo-1525564074637-fd7acf77b762?w=900&q=80" alt="Africa"/>
+          <div class="region-img-overlay"></div>
+          <div class="region-status status-future">Future</div>
+          <div class="region-count">6 Cities</div>
         </div>
-        <div class="chapter-body">
-          <p class="chapter-phase">Phase 2 · Middle East</p>
-          <h3 class="chapter-city">Dubai</h3>
-          <div class="chapter-line"></div>
-          <p class="chapter-desc">Luxury rising from desert gold. Rooftops, skylines and a city built from pure ambition.</p>
-          <span class="chapter-coming">Unlocking Soon</span>
+        <div class="region-body">
+          <p class="region-phase">Phase 03</p>
+          <h3 class="region-title">Africa</h3>
+          <div class="region-line"></div>
+          <p class="region-desc">Ancient wonders, coastlines and cities pulsing with color and rhythm.</p>
+          <div class="region-toggle">
+            <span>Explore Cities</span>
+            <svg class="region-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
         </div>
       </div>
 
-      <!-- CHAPTER 4 — Marrakech -->
-      <div class="chapter-card chapter-future reveal" style="transition-delay:0.24s">
-        <div class="chapter-img">
-          <img src="https://res.cloudinary.com/dsnbrwqtf/image/upload/q_auto/f_auto/v1779647316/paul-macallan-CFKksjYRSQ8-unsplash_adzffm.jpg" alt="Marrakech"/>
-          <div class="chapter-img-overlay"></div>
-          <div class="chapter-badge badge-future">Chapter 04 · Future</div>
-          <div class="chapter-coord">31.6295° N, 7.9811° W</div>
-          <div class="chapter-lock">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <!-- REGION 4 — Latin America -->
+      <div class="region-card reveal" data-region="latin-america" onclick="toggleRegion(this,'latin-america')" style="transition-delay:0.3s">
+        <div class="region-img">
+          <img src="https://images.unsplash.com/photo-1539053447282-6f32f2bddfed?w=900&q=80" alt="Latin America"/>
+          <div class="region-img-overlay"></div>
+          <div class="region-status status-future">Future</div>
+          <div class="region-count">6 Cities</div>
+        </div>
+        <div class="region-body">
+          <p class="region-phase">Phase 04</p>
+          <h3 class="region-title">Latin America</h3>
+          <div class="region-line"></div>
+          <p class="region-desc">Carnival color, mountain ruins and cities that dance after dark.</p>
+          <div class="region-toggle">
+            <span>Explore Cities</span>
+            <svg class="region-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </div>
-        </div>
-        <div class="chapter-body">
-          <p class="chapter-phase">Phase 2 · Middle East</p>
-          <h3 class="chapter-city">Marrakech</h3>
-          <div class="chapter-line"></div>
-          <p class="chapter-desc">Spice markets, riads and mystery. A city that swallows you whole in the best possible way.</p>
-          <span class="chapter-coming">Future Chapter</span>
-        </div>
-      </div>
-
-      <!-- CHAPTER 5 — Tokyo -->
-      <div class="chapter-card chapter-future reveal" style="transition-delay:0.32s">
-        <div class="chapter-img">
-          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80" alt="Tokyo"/>
-          <div class="chapter-img-overlay"></div>
-          <div class="chapter-badge badge-future">Chapter 05 · Future</div>
-          <div class="chapter-coord">35.6762° N, 139.6503° E</div>
-          <div class="chapter-lock">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </div>
-        </div>
-        <div class="chapter-body">
-          <p class="chapter-phase">Phase 3 · Asia</p>
-          <h3 class="chapter-city">Tokyo</h3>
-          <div class="chapter-line"></div>
-          <p class="chapter-desc">Neon bleeds into rain-soaked streets. A city that never quiets and never looks the same twice.</p>
-          <span class="chapter-coming">Future Chapter</span>
-        </div>
-      </div>
-
-      <!-- CHAPTER 6 — Bali -->
-      <div class="chapter-card chapter-future reveal" style="transition-delay:0.40s">
-        <div class="chapter-img">
-          <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80" alt="Bali"/>
-          <div class="chapter-img-overlay"></div>
-          <div class="chapter-badge badge-future">Chapter 06 · Future</div>
-          <div class="chapter-coord">8.3405° S, 115.0920° E</div>
-          <div class="chapter-lock">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </div>
-        </div>
-        <div class="chapter-body">
-          <p class="chapter-phase">Phase 3 · Asia</p>
-          <h3 class="chapter-city">Bali</h3>
-          <div class="chapter-line"></div>
-          <p class="chapter-desc">Jungle luxury and temple silence. The island that feels like it exists in another dimension.</p>
-          <span class="chapter-coming">Future Chapter</span>
         </div>
       </div>
 
     </div>
+
+    <div class="region-cities-wrap open" id="regionCitiesWrap">
+      <div class="chapters-grid" id="regionCitiesGrid"></div>
+    </div>
+
   </div>
 </section>
 
@@ -2129,6 +2250,472 @@ setInterval(nextImage, 8000);
   }
   animate();
   
+   // REGION-FIRST JOURNEY DATA
+  const regionCities = {
+    'eastern-europe': `
+      <div class="chapter-card chapter-active reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&q=80" alt="Istanbul"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-active">Turkey · Now</div>
+          <div class="chapter-coord">41.0082° N, 28.9784° E</div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Eastern Europe</p>
+          <h3 class="chapter-city">Istanbul</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Where East meets West and every sunset sets the Bosphorus on fire. Kathrine's journey begins here.</p>
+          <a href="#guides" class="chapter-cta">Read the Guide →</a>
+        </div>
+      </div>
+      <div class="chapter-card chapter-soon reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=800&q=80" alt="Prague"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-soon">Czech Republic · Soon</div>
+          <div class="chapter-coord">50.0755° N, 14.4378° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Eastern Europe</p>
+          <h3 class="chapter-city">Prague</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Gothic spires, cobblestone fog and a city that breathes like a dark fairytale.</p>
+          <span class="chapter-coming">Unlocking Soon</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1513326738677-b964603b136d?w=800&q=80" alt="Moscow"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Russia · Future</div>
+          <div class="chapter-coord">55.7558° N, 37.6173° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Eastern Europe</p>
+          <h3 class="chapter-city">Moscow</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Snow, gold domes and a quiet that only winter can make.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1751829972654-01ce2c729df5?w=800&q=80" alt="Warsaw"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Poland · Future</div>
+          <div class="chapter-coord">52.2297° N, 21.0122° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Eastern Europe</p>
+          <h3 class="chapter-city">Warsaw</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">A city rebuilt brick by brick, wearing its history like armor.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=800&q=80" alt="Bratislava"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Slovakia · Future</div>
+          <div class="chapter-coord">48.1486° N, 17.1077° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Eastern Europe</p>
+          <h3 class="chapter-city">Bratislava</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">A castle on the Danube, and a capital still writing its own story.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1751829972654-01ce2c729df5?w=800&q=80" alt="Budapest"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Hungary · Future</div>
+          <div class="chapter-coord">47.4979° N, 19.0402° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Eastern Europe</p>
+          <h3 class="chapter-city">Budapest</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Thermal baths, ruin bars and a skyline split in two by the Danube.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+    `,
+    'middle-east': `
+      <div class="chapter-card chapter-soon reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80" alt="Dubai"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-soon">UAE · Soon</div>
+          <div class="chapter-coord">25.2048° N, 55.2708° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Middle East</p>
+          <h3 class="chapter-city">Dubai</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Luxury rising from desert gold. Rooftops, skylines and a city built from pure ambition.</p>
+          <span class="chapter-coming">Unlocking Soon</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1669815007479-494b3b51c2c3?w=800&q=80" alt="Doha"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Qatar · Future</div>
+          <div class="chapter-coord">25.2854° N, 51.5310° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Middle East</p>
+          <h3 class="chapter-city">Doha</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Ultra-modern towers rising beside centuries-old souqs on the Gulf.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1669815007479-494b3b51c2c3?w=800&q=80" alt="Beirut"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Lebanon · Future</div>
+          <div class="chapter-coord">33.8938° N, 35.5018° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Middle East</p>
+          <h3 class="chapter-city">Beirut</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">A Mediterranean capital that keeps rebuilding itself into something beautiful.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80" alt="Manama"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Bahrain · Future</div>
+          <div class="chapter-coord">26.2285° N, 50.5860° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Middle East</p>
+          <h3 class="chapter-city">Manama</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">A small island capital where old souqs sit in the shadow of glass towers.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1669815007479-494b3b51c2c3?w=800&q=80" alt="Kuwait City"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Kuwait · Future</div>
+          <div class="chapter-coord">29.3759° N, 47.9774° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Middle East</p>
+          <h3 class="chapter-city">Kuwait City</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Towers on the Gulf, and the iconic Kuwait Towers glowing at dusk.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1551171128-c5b124a4174c?w=800&q=80" alt="Petra"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Jordan · Future</div>
+          <div class="chapter-coord">30.3285° N, 35.4444° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Middle East</p>
+          <h3 class="chapter-city">Petra</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">A lost city carved into rose-red rock, hidden behind a narrow canyon.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+    `,
+    'africa': `
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1525564074637-fd7acf77b762?w=800&q=80" alt="Cairo"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Egypt · Future</div>
+          <div class="chapter-coord">30.0444° N, 31.2357° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Africa</p>
+          <h3 class="chapter-city">Cairo</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">The pyramids of Giza, the Nile at sunset, and 4,000 years of history.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1497253076442-cc9c157e3bec?w=800&q=80" alt="Cape Town"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">South Africa · Future</div>
+          <div class="chapter-coord">33.9249° S, 18.4241° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Africa</p>
+          <h3 class="chapter-city">Cape Town</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Table Mountain, two oceans, and a city built where they meet.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1497253076442-cc9c157e3bec?w=800&q=80" alt="Accra"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Ghana · Future</div>
+          <div class="chapter-coord">5.6037° N, 0.1870° W</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Africa</p>
+          <h3 class="chapter-city">Accra</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Golden coastlines, vibrant markets and the warmth of West African hospitality.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1525564074637-fd7acf77b762?w=800&q=80" alt="Lagos"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Nigeria · Future</div>
+          <div class="chapter-coord">6.5244° N, 3.3792° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Africa</p>
+          <h3 class="chapter-city">Lagos</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">West Africa's beating heart — music, energy and a skyline on the rise.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1497253076442-cc9c157e3bec?w=800&q=80" alt="Addis Ababa"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Ethiopia · Future</div>
+          <div class="chapter-coord">9.0320° N, 38.7469° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Africa</p>
+          <h3 class="chapter-city">Addis Ababa</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">A high-altitude capital rich in coffee culture and ancient tradition.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1525564074637-fd7acf77b762?w=800&q=80" alt="Nairobi"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Kenya · Future</div>
+          <div class="chapter-coord">1.2921° S, 36.8219° E</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Africa</p>
+          <h3 class="chapter-city">Nairobi</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">A capital city with a national park at its edge — safari meets skyline.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+    `,
+    'latin-america': `
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1539053447282-6f32f2bddfed?w=800&q=80" alt="Rio de Janeiro"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Brazil · Future</div>
+          <div class="chapter-coord">22.9068° S, 43.1729° W</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Latin America</p>
+          <h3 class="chapter-city">Rio de Janeiro</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Christ the Redeemer, Copacabana, and a city that dances after dark.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1633118743838-1202e7aebdc4?w=800&q=80" alt="Buenos Aires"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Argentina · Future</div>
+          <div class="chapter-coord">34.6037° S, 58.3816° W</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Latin America</p>
+          <h3 class="chapter-city">Buenos Aires</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Tango in the streets, European bones, and a fiercely Argentine soul.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1633118743838-1202e7aebdc4?w=800&q=80" alt="Santiago"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Chile · Future</div>
+          <div class="chapter-coord">33.4489° S, 70.6693° W</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Latin America</p>
+          <h3 class="chapter-city">Santiago</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">A capital pinned between vineyards and the snow-capped Andes.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1539053447282-6f32f2bddfed?w=800&q=80" alt="Cusco"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Peru · Future</div>
+          <div class="chapter-coord">13.5319° S, 71.9675° W</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Latin America</p>
+          <h3 class="chapter-city">Cusco</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">The old Inca capital, and the gateway to Machu Picchu in the clouds.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1633118743838-1202e7aebdc4?w=800&q=80" alt="Panama City"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">Panama · Future</div>
+          <div class="chapter-coord">8.9824° N, 79.5199° W</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Latin America</p>
+          <h3 class="chapter-city">Panama City</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">A glass skyline standing guard over one of the world's great canals.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+      <div class="chapter-card chapter-future reveal visible">
+        <div class="chapter-img">
+          <img src="https://images.unsplash.com/photo-1539053447282-6f32f2bddfed?w=800&q=80" alt="San Salvador"/>
+          <div class="chapter-img-overlay"></div>
+          <div class="chapter-badge badge-future">El Salvador · Future</div>
+          <div class="chapter-coord">13.6929° N, 89.2182° W</div>
+          <div class="chapter-lock">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="chapter-body">
+          <p class="chapter-phase">Latin America</p>
+          <h3 class="chapter-city">San Salvador</h3>
+          <div class="chapter-line"></div>
+          <p class="chapter-desc">Volcanoes on the horizon, and a capital quietly reinventing itself.</p>
+          <span class="chapter-coming">Future Chapter</span>
+        </div>
+      </div>
+    `
+  };
+
+
+  function toggleRegion(cardEl, key) {
+    const wrap = document.getElementById('regionCitiesWrap');
+    const grid = document.getElementById('regionCitiesGrid');
+    const alreadyActive = cardEl.classList.contains('region-active');
+
+    document.querySelectorAll('.region-card').forEach(c => c.classList.remove('region-active'));
+
+    if (alreadyActive) {
+      // Collapse — nothing selected
+      wrap.classList.remove('open');
+      setTimeout(() => { grid.innerHTML = ''; }, 600);
+      return;
+    }
+
+    cardEl.classList.add('region-active');
+    grid.innerHTML = regionCities[key] || '';
+    wrap.classList.add('open');
+  }
+
+  // Default open region on load
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('regionCitiesGrid').innerHTML = regionCities['eastern-europe'];
+  });
+
    // TRAVEL GUIDES DATA
   const entryKeys = ['istanbul', 'moscow', 'tokyo'];
   let currentEntryIndex = 0;
