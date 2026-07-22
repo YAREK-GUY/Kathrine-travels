@@ -78,81 +78,215 @@ body::after{
   z-index:0;
 }
 
-/* ── NAV ── */
-nav{
+/* ── SIDEBAR NAV ── */
+:root{ --sidebar-w: 224px; --sidebar-w-collapsed: 76px; }
+
+.sidebar{
   position:fixed;
-  top:0;left:0;right:0;
-  z-index:200;
+  top:0;left:0;bottom:0;
+  width:var(--sidebar-w);
+  z-index:300;
+  display:flex;
+  flex-direction:column;
+  padding:2.2rem 1.1rem 1.6rem;
+  background:rgba(2,4,8,0.92);
+  border-right:1px solid rgba(0,255,229,0.08);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1), width 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.4s cubic-bezier(0.16,1,0.3,1);
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+.sidebar.collapsed{
+  width:var(--sidebar-w-collapsed);
+  padding-left:0.6rem;
+  padding-right:0.6rem;
+}
+
+.sidebar-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:1.2rem 3rem;
-  background:rgba(2,4,8,0.85);
+  gap:0.4rem;
+  padding:0 0.4rem 1.8rem 0.7rem;
   border-bottom:1px solid rgba(0,255,229,0.08);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  transition:border-color 0.4s;
+  margin-bottom:1.6rem;
 }
-nav.scrolled{border-bottom-color:rgba(0,255,229,0.2)}
+.sidebar.collapsed .sidebar-header{
+  padding-left:0;
+  padding-right:0;
+  justify-content:center;
+}
 
-.nav-logo{
+.sidebar-logo{
+  display:flex;
+  align-items:center;
   font-family:var(--font-tech);
-  font-size:0.75rem;
+  font-size:0.72rem;
   font-weight:700;
-  letter-spacing:0.3em;
+  letter-spacing:0.28em;
   color:var(--teal);
   text-decoration:none;
   text-transform:uppercase;
   text-shadow:0 0 20px rgba(0,255,229,0.5);
+  white-space:nowrap;
+  overflow:hidden;
+}
+.sidebar-logo .logo-full{ transition:opacity 0.2s, width 0.2s; opacity:1; }
+.sidebar.collapsed .sidebar-logo .logo-full{ opacity:0; width:0; display:none; }
+
+.sidebar-collapse-btn{
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:26px;height:26px;
+  background:transparent;
+  border:1px solid rgba(0,255,229,0.2);
+  color:var(--white-dim);
+  cursor:pointer;
+  transition:color 0.3s, border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.sidebar-collapse-btn:hover{ color:var(--teal); border-color:rgba(0,255,229,0.5); }
+.sidebar.collapsed .sidebar-collapse-btn{ transform:rotate(180deg); }
+
+.sidebar-nav{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:0.2rem;
 }
 
-.nav-links{
+.sidebar-link{
   display:flex;
-  gap:2.5rem;
-  list-style:none;
   align-items:center;
-}
-.nav-links a{
+  gap:0.9rem;
+  padding:0.75rem 0.7rem;
   font-family:var(--font-body);
   font-weight:500;
-  font-size:0.72rem;
-  letter-spacing:0.2em;
+  font-size:0.78rem;
+  letter-spacing:0.1em;
   text-transform:uppercase;
   color:var(--white-dim);
   text-decoration:none;
-  transition:color 0.3s;
-  position:relative;
+  border-left:2px solid transparent;
+  white-space:nowrap;
+  overflow:hidden;
+  transition:color 0.3s, background 0.3s, border-color 0.3s, padding 0.4s cubic-bezier(0.16,1,0.3,1), justify-content 0.4s;
 }
-.nav-links a::after{
-  content:'';
-  position:absolute;
-  bottom:-4px;left:0;right:0;
-  height:1px;
-  background:var(--teal);
-  transform:scaleX(0);
-  transition:transform 0.3s;
-  box-shadow:0 0 8px var(--teal);
+.sidebar-link svg{ flex-shrink:0; opacity:0.75; transition:opacity 0.3s; }
+.sidebar-link .label{ transition:opacity 0.2s, width 0.2s; opacity:1; }
+.sidebar.collapsed .sidebar-link{ justify-content:center; padding-left:0; padding-right:0; }
+.sidebar.collapsed .sidebar-link .label{ opacity:0; width:0; display:none; }
+.sidebar-link:hover,
+.sidebar-link.active{
+  color:var(--teal);
+  background:rgba(0,255,229,0.06);
+  border-left-color:var(--teal);
 }
-.nav-links a:hover{color:var(--teal)}
-.nav-links a:hover::after{transform:scaleX(1)}
+.sidebar-link:hover svg,
+.sidebar-link.active svg{ opacity:1; filter:drop-shadow(0 0 6px rgba(0,255,229,0.5)); }
 
-.nav-cta{
+.sidebar-footer{
+  margin-top:auto;
+  padding-top:1.6rem;
+  border-top:1px solid rgba(0,255,229,0.08);
+  display:flex;
+  flex-direction:column;
+  gap:0.8rem;
+}
+
+.sidebar-cta{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:0.6rem;
   font-family:var(--font-tech);
-  font-size:0.62rem;
+  font-size:0.6rem;
   font-weight:600;
   letter-spacing:0.2em;
   text-transform:uppercase;
   color:var(--ink);
   background:var(--teal);
   border:none;
-  padding:0.6rem 1.4rem;
+  padding:0.75rem 1rem;
   cursor:pointer;
   text-decoration:none;
+  white-space:nowrap;
+  overflow:hidden;
   clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  transition:background 0.3s, box-shadow 0.3s;
+  transition:background 0.3s, box-shadow 0.3s, padding 0.4s;
   box-shadow:0 0 20px rgba(0,255,229,0.3);
 }
-.nav-cta:hover{background:var(--cyan);box-shadow:0 0 30px rgba(0,212,255,0.5)}
+.sidebar-cta:hover{background:var(--cyan);box-shadow:0 0 30px rgba(0,212,255,0.5)}
+.sidebar-cta .label{ transition:opacity 0.2s, width 0.2s; opacity:1; }
+.sidebar.collapsed .sidebar-cta{ padding-left:0.6rem; padding-right:0.6rem; }
+.sidebar.collapsed .sidebar-cta .label{ opacity:0; width:0; display:none; }
+
+.sidebar-social{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:0.5rem;
+  font-family:var(--font-tech);
+  font-size:0.55rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--white-dim);
+  text-decoration:none;
+  padding:0.5rem;
+  white-space:nowrap;
+  overflow:hidden;
+  transition:color 0.3s;
+}
+.sidebar-social:hover{color:var(--teal)}
+.sidebar-social .label{ transition:opacity 0.2s, width 0.2s; opacity:1; }
+.sidebar.collapsed .sidebar-social .label{ opacity:0; width:0; display:none; }
+
+/* Mobile hamburger trigger */
+.sidebar-toggle{
+  display:none;
+  position:fixed;
+  top:1.2rem;left:1.2rem;
+  z-index:310;
+  width:42px;height:42px;
+  align-items:center;
+  justify-content:center;
+  background:rgba(2,4,8,0.9);
+  border:1px solid rgba(0,255,229,0.2);
+  color:var(--teal);
+  cursor:pointer;
+  clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+}
+
+.sidebar-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(2,4,8,0.7);
+  backdrop-filter:blur(4px);
+  z-index:290;
+}
+
+/* Page content offset for sidebar */
+.page-content{ margin-left:var(--sidebar-w); transition:margin-left 0.4s cubic-bezier(0.16,1,0.3,1); }
+
+@media(min-width:901px){
+  body.sidebar-collapsed .page-content{ margin-left:var(--sidebar-w-collapsed); }
+}
+
+@media(max-width:900px){
+  .sidebar{ transform:translateX(-100%); width:var(--sidebar-w) !important; padding:2.2rem 1.1rem 1.6rem !important; }
+  .sidebar.open{ transform:translateX(0); }
+  .sidebar-toggle{ display:flex; }
+  .sidebar-backdrop.open{ display:block; }
+  .page-content{ margin-left:0 !important; }
+  .sidebar-collapse-btn{ display:none; }
+  .sidebar-logo .logo-full,
+  .sidebar-link .label,
+  .sidebar-cta .label,
+  .sidebar-social .label{ opacity:1 !important; width:auto !important; display:inline !important; }
+}
 
 /* ── HERO ── */
 .hero{
@@ -1139,8 +1273,6 @@ footer::before{
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
-  nav{padding:1rem 1.5rem}
-  .nav-links,.nav-cta{display:none}
   .about-grid{grid-template-columns:1fr;gap:3rem}
   .dest-grid{grid-template-columns:1fr 1fr}
   .dest-card:first-child{grid-column:span 2;grid-row:span 1}
@@ -1462,18 +1594,65 @@ footer::before{
 </head>
 <body>
 <canvas id="particles" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:0.55"></canvas>
-<!-- NAV -->
-<nav id="nav">
-  <a href="#" class="nav-logo">KTT://</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#destinations">Destinations</a></li>
-    <li><a href="#chapters">Chapters</a></li>
-    <li><a href="#guides">Guides</a></li>
-    <li><a href="#wallpapers">Wallpapers</a></li>
+
+<!-- SIDEBAR -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="#" class="sidebar-logo"><span class="logo-mark">K</span><span class="logo-full">TT://</span></a>
+    <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+  </div>
+  <ul class="sidebar-nav">
+    <li>
+      <a href="#about" class="sidebar-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        <span class="label">About</span>
+      </a>
+    </li>
+    <li>
+      <a href="#destinations" class="sidebar-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <span class="label">Destinations</span>
+      </a>
+    </li>
+    <li>
+      <a href="#chapters" class="sidebar-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 5-5 2 2-5 5-2z"/></svg>
+        <span class="label">Chapters</span>
+      </a>
+    </li>
+    <li>
+      <a href="#guides" class="sidebar-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span class="label">Guides</span>
+      </a>
+    </li>
+    <li>
+      <a href="#wallpapers" class="sidebar-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span class="label">Wallpapers</span>
+      </a>
+    </li>
   </ul>
-  <a href="#join" class="nav-cta">Join Journey</a>
-</nav>
+  <div class="sidebar-footer">
+    <a href="#join" class="sidebar-cta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <span class="label">Join Journey</span>
+    </a>
+    <a href="https://tiktok.com/@kathrine.tours.an" target="_blank" class="sidebar-social">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07Z"/></svg>
+      <span class="label">TikTok</span>
+    </a>
+  </div>
+</aside>
+
+<div class="page-content">
 
 <!-- HERO -->
 <section class="hero">
@@ -2048,13 +2227,45 @@ footer::before{
   <p class="footer-copy">© 2026 Kathrine's Tour & Travels · AI Cinematic Travel Brand · All Rights Reserved</p>
 </footer>
 
+</div><!-- /.page-content -->
+
 <script>
-  // Nav scroll
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
+  // Sidebar toggle (mobile)
+  const sidebar = document.getElementById('sidebar');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    sidebarBackdrop.classList.add('open');
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarBackdrop.classList.remove('open');
+  }
+  sidebarToggle.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
   });
- 
+  sidebarBackdrop.addEventListener('click', closeSidebar);
+  document.querySelectorAll('.sidebar-link, .sidebar-cta').forEach(link => {
+    link.addEventListener('click', closeSidebar);
+  });
+
+  // Sidebar collapse/expand (desktop)
+  const sidebarCollapseBtn = document.getElementById('sidebarCollapseBtn');
+  function setSidebarCollapsed(collapsed) {
+    sidebar.classList.toggle('collapsed', collapsed);
+    document.body.classList.toggle('sidebar-collapsed', collapsed);
+    try { localStorage.setItem('ktt-sidebar-collapsed', collapsed ? '1' : '0'); } catch (e) {}
+  }
+  sidebarCollapseBtn.addEventListener('click', () => {
+    setSidebarCollapsed(!sidebar.classList.contains('collapsed'));
+  });
+  // Restore preference on load
+  try {
+    if (localStorage.getItem('ktt-sidebar-collapsed') === '1') setSidebarCollapsed(true);
+  } catch (e) {}
+
   // Reveal on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
